@@ -3,6 +3,8 @@ package com.xpu.repair.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,39 +20,28 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ApiModel(value="User对象", description="用户表")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户ID
-     */
+    @ApiModelProperty(value = "用户ID")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
-    /**
-     * 用户姓名
-     */
+    @ApiModelProperty(value = "用户姓名")
     private String name;
 
-    /**
-     * 密码
-     */
+    @ApiModelProperty(value = "密码")
     private String password;
 
-    /**
-     * 性别：0为男1为女，默认为男
-     */
+    @ApiModelProperty(value = "性别：0为男1为女，默认为男")
     private Integer sexual;
 
-    /**
-     * 邮箱
-     */
+    @ApiModelProperty(value = "邮箱")
     private String email;
 
-    /**
-     * 电话
-     */
+    @ApiModelProperty(value = "电话")
     private String phone;
 
 
