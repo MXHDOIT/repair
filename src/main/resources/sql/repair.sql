@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL COMMENT '编号ID',
   `password` varchar(50) NOT NULL COMMENT '密码',
-  `userName` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
@@ -65,10 +65,10 @@ CREATE TABLE `technician` (
   `name` varchar(50) DEFAULT NULL COMMENT '姓名',
   `number` varchar(20) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `professionId` int(11) DEFAULT NULL,
+  `profession_id` int(11) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_PROFESSIONID` FOREIGN KEY (`professionId`) REFERENCES `profession` (`id`)
+  CONSTRAINT `FK_PROFESSIONID` FOREIGN KEY (`profession_id`) REFERENCES `profession` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='维修人员表';
 
 -- ----------------------------
@@ -90,11 +90,11 @@ CREATE TABLE `repair` (
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '报修单状态：0为被用户删除，1为未安排检修，2为已安排检修，3为待同意取消，\r\n  4为已同意取消，5为待验收，6为已验收，默认为被用户删除',
   `detail` varchar(10240) NOT NULL COMMENT '问题详情',
   `place` varchar(256) NOT NULL COMMENT '发生故障的物业的地点',
-  `picURL` varchar(256) DEFAULT NULL COMMENT '现场照片',
-  `submitTime` datetime NOT NULL COMMENT '提交报修单的时间',
-  `userId` char(30) NOT NULL COMMENT '提交该报修单的用户的编号',
+  `picture_url` varchar(256) DEFAULT NULL COMMENT '现场照片',
+  `submit_time` datetime NOT NULL COMMENT '提交报修单的时间',
+  `user_id` char(30) NOT NULL COMMENT '提交该报修单的用户的编号',
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_USERID` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `FK_USERID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='报修单表';
 
 -- ----------------------------
@@ -129,14 +129,14 @@ INSERT INTO `repair` VALUES ('43', '1', ' 天花板漏水，有很多灰尘掉�
 DROP TABLE IF EXISTS `maintenance`;
 CREATE TABLE `maintenance` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
-  `repairId` int(11) NOT NULL COMMENT '该维修记录对应的报修单编号',
-  `technicianId` int(11) NOT NULL COMMENT '维修人员的编号',
-  `startTime` datetime NOT NULL COMMENT '维修开始的时间',
-  `endTime` datetime NOT NULL COMMENT '维修结束的时间',
-  `picURL` varchar(256) DEFAULT NULL COMMENT '维修完成后现场照片',
+  `repair_id` int(11) NOT NULL COMMENT '该维修记录对应的报修单编号',
+  `technician_id` int(11) NOT NULL COMMENT '维修人员的编号',
+  `start_time` datetime NOT NULL COMMENT '维修开始的时间',
+  `end_time` datetime NOT NULL COMMENT '维修结束的时间',
+  `picture_url` varchar(256) DEFAULT NULL COMMENT '维修完成后现场照片',
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_REPAIRID` FOREIGN KEY (`repairId`) REFERENCES `repair` (`id`),
-  CONSTRAINT `FK_TECHNICIANID` FOREIGN KEY (`technicianId`) REFERENCES `technician` (`id`)
+  CONSTRAINT `FK_REPAIRID` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`),
+  CONSTRAINT `FK_TECHNICIANID` FOREIGN KEY (`technician_id`) REFERENCES `technician` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='维修记录表';
 
 -- ----------------------------
@@ -151,12 +151,12 @@ DROP TABLE IF EXISTS `urgentrepair`;
 CREATE TABLE `urgentrepair` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态：0为待查看，1为已查看，2为被用户取消，默认为待查看',
-  `repairId` int(11) NOT NULL COMMENT '该催单对应的报修单编号',
-  `userId` char(11) NOT NULL COMMENT '发起该催单的用户的编号',
-  `createTime` datetime NOT NULL COMMENT '催单的创建时间',
+  `repair_id` int(11) NOT NULL COMMENT '该催单对应的报修单编号',
+  `user_id` char(11) NOT NULL COMMENT '发起该催单的用户的编号',
+  `create_time` datetime NOT NULL COMMENT '催单的创建时间',
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_REPAIRID1` FOREIGN KEY (`repairId`) REFERENCES `repair` (`id`),
-  CONSTRAINT `FK_USERID1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `FK_REPAIRID1` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`),
+  CONSTRAINT `FK_USERID1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='催单表';
 
 -- ----------------------------
