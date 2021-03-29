@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 public interface TechnicianMapper extends BaseMapper<Technician> {
 

@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,7 +30,7 @@ public class Repair implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "报修单状态：0为被用户删除，1为未安排检修，2为已安排检修，3为待同意取消， 4为已同意取消，5为待验收，6为已验收，默认为被用户删除")
+    @ApiModelProperty(value = "报修单状态：0为被用户删除，1为未安排检修，2为已安排检修，3为待同意取消，4为已同意取消，5为待验收，6为已验收，默认为被用户删除")
     private Integer status;
 
     @ApiModelProperty(value = "问题详情")

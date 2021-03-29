@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 public interface ProfessionService extends IService<Profession> {
 

@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,17 +25,20 @@ public class Technician implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "编号ID")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @ApiModelProperty(value = "维修人员ID")
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    private String id;
 
     @ApiModelProperty(value = "姓名")
     private String name;
 
-    private String number;
+    @ApiModelProperty(value = "密码")
+    private String password;
 
+    @ApiModelProperty(value = "手机号")
     private String phone;
 
+    @ApiModelProperty(value = "职业id")
     private Integer professionId;
 
     @ApiModelProperty(value = "邮箱")

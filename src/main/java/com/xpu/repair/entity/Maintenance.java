@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,7 +34,7 @@ public class Maintenance implements Serializable {
     private Integer repairId;
 
     @ApiModelProperty(value = "维修人员的编号")
-    private Integer technicianId;
+    private String technicianId;
 
     @ApiModelProperty(value = "维修开始的时间")
     private Date startTime;

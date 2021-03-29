@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author MaXinHang
- * @since 2021-03-28
+ * @since 2021-03-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,14 +25,14 @@ public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "编号ID")
+    @ApiModelProperty(value = "管理员ID")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
-    private Integer id;
+    private String id;
 
     @ApiModelProperty(value = "密码")
     private String password;
 
-    private String username;
+    private String name;
 
 
 }
