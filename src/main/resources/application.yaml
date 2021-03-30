@@ -9,5 +9,5 @@ spring:
 # 服务端口
 server:
   port: 8888
-  servlet:
-    context-path: /repair
+#  servlet:
+#    context-path: /repair
