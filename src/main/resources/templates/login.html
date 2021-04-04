@@ -77,16 +77,17 @@
                         </div>
                     </div>
                     <div class="form-bottom">
-                        <form role="form" id="myForm" method="post" class="login-form">
+                        <form role="form" id="myForm" method="post" class="login-form" onsubmit="">
+                            <div id="errorMsg" style="width:100%;display: none;color: red"></div>
                             <div class="form-group">
-                                <label class="sr-only" for="form-username">Username</label>
-                                <input type="text" name="id" placeholder="账号..." class="form-username form-control" id="form-username">
+                                <label class="sr-only" for="form-id">Account</label>
+                                <input type="text" name="id" placeholder="账号..." class="form-username form-control" id="form-id" onclick="hideErrorMsg()">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
                                 <input type="password" name="password" placeholder="密码..." class="form-password form-control" id="form-password">
                             </div>
-                            <button id="submit" class="btn" value="登陆！" style="width:100%;display: none"/>登陆!</button>
+                            <button type="button" id="submit" class="btn" value="登陆！" style="width:100%;display: none" onclick="login()"/>登陆!</button>
                         </form>
                     </div>
                 </div>
@@ -103,32 +104,7 @@
 <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/assets/js/jquery.backstretch.min.js}"></script>
 <script th:src="@{/assets/js/scripts.js}"></script>
-<script>
-    function selectIdentity(o)
-    {
-        if(o==0)
-        {
-            alert("student");
-            $("#myForm").attr("action","/user/login");
-            $("#submit").text("用户登陆");
-            alert($("#myForm").attr("action"));
-        }
-        else if(o==1)
-        {
-            alert("technician");
-            $("#myForm").attr("action","/technician/login");
-            $("#submit").text("维修人员登陆");
-            alert($("#myForm").attr("action"));
-        }else if(o==2){
-            alert("admin");
-            $("#myForm").attr("action","/admin/login");
-            $("#submit").text("管理员登陆");
-            alert($("#myForm").attr("action"));
-        }
-
-        $("#submit").css("display","block");
-    }
-</script>
+<script th:src="@{/assets/js/login.js}"></script>
 
 <!--[if lt IE 10]>
 <script th:src="@{/assets/js/placeholder.js}"></script>

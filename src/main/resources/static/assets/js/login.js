@@ -1,34 +1,61 @@
 function selectIdentity(o)
 {
-	if(o==0)
-	{
-		document.getElementById("myForm").action="/user/login";
-	}
-	else if(o==1)
-	{
-		document.getElementById("myForm").action="/technician/login";
-	}else if(o==2){
-        document.getElementById("myForm").action="/admin/login";
-	}
+    if(o==0)
+    {
+        alert("student");
+        $("#myForm").attr("action","/user/login");
+        $("#submit").text("用户登录");
+        alert($("#myForm").attr("action"));
+    }
+    else if(o==1)
+    {
+        alert("technician");
+        $("#myForm").attr("action","/technician/login");
+        $("#submit").text("维修人员登录");
+        alert($("#myForm").attr("action"));
+    }else if(o==2){
+        alert("admin");
+        $("#myForm").attr("action","/admin/login");
+        $("#submit").text("管理员登录");
+        alert($("#myForm").attr("action"));
+    }
+
+    $("#submit").css("display","block");
 }
 
-function login()
-{
-  var url = document.getElementById("myForm").action;
-  console.log(url);
-  var name=document.getElementById("form-username").value;
-  var password=document.getElementById("form-password").value;
+function hideErrorMsg() {
+    $("#errorMsg").css("display","none")
+}
 
-  alert(1);
+function login() {
+    var id = $("#form-id").val()
+    var password = $("#form-password").val()
+    if (!check(id)  || !check(password)){
+        $("#errorMsg").text("账号和密码不能为空");
+        $("#errorMsg").css("display","block");
+        return false;
+    }
 
-  $.post({
-      url: url,
-      data: {
-          'name':name,
-          'password':password
-      },
-      success: function (data) {
-        alert(data);
-      }
-  })
+    $.ajax({
+        type: "POST",
+        url: $("#myForm").attr("action"),
+        data: {
+            'id':id,
+            'password':password
+        },
+        success: function (data) {
+            if (data.success){
+                window.location.href=data.data["url"]
+            }else{
+                $("#errorMsg").text(data.message);
+                $("#errorMsg").css("display","block");
+            }
+        }
+    })
+}
+
+// 校验表单中用户名 与 密码是否输入,  如果有值 -> 返回 true , 如果未输入 返回 false;
+function check(val) {
+    val = val.toString().trim();
+    return !(val == '');
 }

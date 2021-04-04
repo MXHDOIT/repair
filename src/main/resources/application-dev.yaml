@@ -11,3 +11,8 @@ server:
   port: 8888
 #  servlet:
 #    context-path: /repair
+
+
+# mybatis xml
+mybatis-plus:
+  mapper-locations: classpath:com/xpu/repair/mapper/xml/*.xml
