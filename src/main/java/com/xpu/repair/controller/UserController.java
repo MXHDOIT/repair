@@ -86,7 +86,7 @@ public class UserController {
         if (result){
             return R.ok().data("url","/user/showUsersPage");
         }
-        return R.error().data("msg","删除失败");
+        return R.error().message("删除失败");
     }
 
     /**
@@ -107,14 +107,14 @@ public class UserController {
     public R addUser(User user){
         User userServiceById = userService.getById(user.getId());
         if (userServiceById != null){
-            return R.error().data("msg","用户已经存在");
+            return R.error().message("用户已经存在");
         }
 
         boolean save = userService.save(user);
         if (save){
-            return R.ok().data("msg","添加成功");
+            return R.ok();
         }
-        return R.error().data("msg","添加用户失败");
+        return R.error().message("添加用户失败");
     }
 }
 

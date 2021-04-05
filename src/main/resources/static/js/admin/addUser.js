@@ -32,14 +32,14 @@ function addUser() {
         },
         success: function (data) {
             if (data.success){
-                layer.msg(data.data['msg'], {icon: 1, time: 1500});
+                layer.msg("添加成功", {icon: 1, time: 1500});
 
                 // 添加成功后重新加载页面
                 setTimeout(function () {
                     location.reload();
                 }, 1500)
             }else {
-                layer.msg(data.data['msg'], {icon: 2});
+                layer.msg(data.message, {icon: 2});
             }
         },
         error: function (data) {
