@@ -16,31 +16,31 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
 
-                <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">书籍管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/addBookPage">&emsp;&emsp;录入新书</a></dd>
-                        <dd><a href="/addCategoryPage?pageNum=1">&emsp;&emsp;新增类别</a></dd>
-                        <dd><a href="/showBooksPage">&emsp;&emsp;查询书籍</a></dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item ">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/showUsersPage?pageNum=1">&emsp;&emsp;查询用户</a></dd>
-                        <dd><a href="/addUserPage">&emsp;&emsp;新增用户</a></dd>
+                        <dd><a href="/user/showUsersPage?pageNum=1">&emsp;&emsp;查询用户</a></dd>
+                        <dd><a href="/user/addUserPage">&emsp;&emsp;新增用户</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">借阅信息</a>
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;">维修人员管理</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="/allBorrowBooksRecordPage?pageNum=1">&emsp;&emsp;所有记录</a></dd>
+                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                        <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item"><a href="/adminInfoPage">个人信息</a></li>
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;">报修记录</a>
+                    <dl class="layui-nav-child">
+                        <dd  class="layui-this"><a href="/repair/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                        <dd><a href="/">&emsp;&emsp;未分配报修记录</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item "><a href="/admin/infoPage">管理员信息</a></li>
             </ul>
         </div>
     </div>
@@ -48,19 +48,10 @@
     <div class="layui-body layui-container">
 
         <hr class="layui-bg-blue">
-        <h2 style="text-align:center">所有借书记录</h2>
+        <h2 style="text-align:center">报修记录</h2>
         <hr class="layui-bg-blue">
 
         <table class="layui-table" lay-size="sm">
-
-            <thead>
-            <tr>
-                <td>用户</td>
-                <td>书籍</td>
-                <td>借书日期</td>
-                <td>还书日期</td>
-            </tr>
-            </thead>
 
             <tr th:each="borrowingBooks:${page.getList()}">
                 <td><label th:text="${borrowingBooks.getUser().getUserName()}"></label></td>

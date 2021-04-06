@@ -43,6 +43,4 @@ public class Technician implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     private String email;
-
-
 }

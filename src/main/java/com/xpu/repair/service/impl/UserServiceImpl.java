@@ -23,7 +23,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     UserMapper userMapper;
 
     //分页每页数量
-    private static final int SIZE = 1;
+    private static final int SIZE = 10;
 
     @Override
     public Page<User> findUserByPage(int pageNum) {

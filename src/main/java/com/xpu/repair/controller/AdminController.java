@@ -4,13 +4,15 @@ package com.xpu.repair.controller;
 import com.xpu.repair.dto.R;
 import com.xpu.repair.entity.Admin;
 import com.xpu.repair.service.AdminService;
-import com.xpu.repair.vo.LoginVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author MaXinHang
  * @since 2021-03-29
  */
-@RestController
+@Controller
 @RequestMapping("/admin")
 public class AdminController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -28,7 +30,15 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    /**
+     * 管理员登录
+     * @param id
+     * @param password
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
     public R login(@RequestParam("id") String id, @RequestParam("password") String password, HttpServletRequest request){
         logger.info("================admin login===================");
         logger.info("admin id: "+id);
@@ -44,6 +54,15 @@ public class AdminController {
             }
         }
         return R.error().message("账号或密码错误,请重新登录");
+    }
+
+    /**
+     * 跳转个人信息页面
+     * @return
+     */
+    @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
+    public String infoPage(Model model){
+        return "admin/adminInfo";
     }
 }
 

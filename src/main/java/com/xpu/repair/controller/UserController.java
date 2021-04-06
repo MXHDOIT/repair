@@ -3,11 +3,8 @@ package com.xpu.repair.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.dto.R;
-import com.xpu.repair.entity.Technician;
 import com.xpu.repair.entity.User;
-import com.xpu.repair.mapper.UserMapper;
 import com.xpu.repair.service.UserService;
-import com.xpu.repair.vo.LoginVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +66,7 @@ public class UserController {
     public String showUsersPage(Model model, @RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
         Page<User> userByPage = userService.findUserByPage(pageNum);
         model.addAttribute("page",userByPage);
-        logger.info("userByPage"+userByPage.toString());
-        System.out.println(userByPage.getRecords());
+        logger.info("userByPage"+userByPage.getRecords());
         return "admin/showUsers";
     }
 
@@ -93,7 +89,7 @@ public class UserController {
      * 返回添加用户页面
      */
     @RequestMapping(value = "/addUserPage",method = RequestMethod.GET)
-    public String addBookPage() {
+    public String addUserPage() {
         return "admin/addUser";
     }
 
@@ -104,7 +100,7 @@ public class UserController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public R addUser(User user){
+    public R add(User user){
         User userServiceById = userService.getById(user.getId());
         if (userServiceById != null){
             return R.error().message("用户已经存在");

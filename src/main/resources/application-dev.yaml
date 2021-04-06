@@ -15,4 +15,11 @@ server:
 
 # mybatis xml
 mybatis-plus:
-  mapper-locations: classpath:com/xpu/repair/mapper/xml/*.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xpu.repair.entity
+  configuration:
+    #日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启自动驼峰转换
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
