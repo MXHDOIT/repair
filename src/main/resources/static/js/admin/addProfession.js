@@ -1,10 +1,10 @@
 layui.use(['form','element','layer'], function () {
     let form = layui.form;
-    let element = layui.element();
+    let element = layui.element;
     let layer = layui.layer;
 
     form.on('submit(btn_addBookCategory)', function (data) {
-        addBookCategory();
+        addProfession();
         return false;
     });
 });
@@ -41,9 +41,9 @@ $(document).ready(function () {
         layer.confirm('确认删除?', {
             btn: ['确认', '取消'] //按钮
         }, function () {
-            let bookCategoryId = that.val();
+            let professionId = that.val();
 
-            deleteBookCategoryById(bookCategoryId);
+            deleteBookCategoryById(professionId);
 
             that.parent().parent().remove();
             layer.msg("删除成功", {icon: 1, time: 1000});
@@ -61,16 +61,16 @@ $(document).ready(function () {
 
 
 //ajax添加种类
-function addBookCategory() {
+function addProfession() {
     $.ajax({
         async: false,
         type: "post",
-        url: "/addBookCategory",
+        url: "/profession/add",
         dataType: "json",
         data: $("#addBookCategoryForm").serialize(),
         success: function (data) {
 
-            if (data.toString() == "true") {
+            if (data.success) {
                 layer.msg("添加成功!", {icon: 1, time: 1500});
 
                 // 1500ms后 重新加载页面 , 将更改后的内容重新加载到页面
@@ -78,7 +78,7 @@ function addBookCategory() {
                     location.reload();
                 }, 1500);
             } else {
-                layer.msg("添加失败!", {icon: 2, time: 1500});
+                layer.msg(data.message, {icon: 2, time: 1500});
             }
         },
         error: function (data) {
@@ -88,15 +88,24 @@ function addBookCategory() {
 };
 
 //ajax删除种类
-function deleteBookCategoryById(bookCategoryId) {
+function deleteBookCategoryById(professionId) {
     $.ajax({
         async: false,
         type: "post",
-        url: "/deleteCategory",
+        url: "/profession/delete",
         dataType: "json",
-        data: {bookCategoryId: bookCategoryId},
+        data: {professionId: professionId},
         success: function (data) {
+            if (data.success){
+                layer.msg("删除成功", {icon: 1, time: 1500});
 
+                // 添加成功后跳转页面
+                setTimeout(function () {
+                    window.location.href=data.data['url'];
+                }, 1500)
+            }else {
+                layer.msg(data.message, {icon: 2});
+            }
         },
         error: function (data) {
             alert(data.result);
