@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>管理员-校园报修系统</title>
     <link href="/layui/css/layui.css" rel="stylesheet"/>
-
 </head>
 
 <div class="layui-layout layui-layout-admin">
@@ -36,12 +35,13 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修记录</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd><a href="/repair/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                        <dd><a href="/maintenance/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
+                <li class="layui-nav-item "><a href="/admin/infoPage">管理员信息</a></li>
             </ul>
         </div>
     </div>

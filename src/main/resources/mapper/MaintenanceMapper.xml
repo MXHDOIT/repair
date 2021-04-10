@@ -2,4 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xpu.repair.mapper.MaintenanceMapper">
 
+    <resultMap id="maintenanceVoMap" type="com.xpu.repair.vo.MaintenanceVo">
+        <result property="id" column="m_id"/>
+        <result property="startTime" column="m_start_time"/>
+        <result property="endTime" column="m_end_time"/>
+        <result property="pictureUrl" column="m_picture_url"/>
+        <association property="repair" javaType="com.xpu.repair.entity.Repair">
+            <result property="id" column="r_id"/>
+            <result property="detail" column="r_detail"/>
+            <result property="place" column="r_place"/>
+            <result property="pictureUrl" column="r_picture_url"/>
+        </association>
+        <association property="technician" javaType="com.xpu.repair.entity.Technician">
+            <result property="id" column="t_id"/>
+            <result property="name" column="t_name"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllMaintenanceVO" resultMap="maintenanceVoMap">
+        select r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture,
+        t.id as t_id,t.`name` as t_name,
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        from `repair` r JOIN maintenance m ON r.id = m.repair_id
+        JOIN technician t on t.id = m.technician_id
+    </select>
+
+    <select id="findSuccessMaintenanceVO" resultMap="maintenanceVoMap">
+        select r.id as r_id,r.`status` as r_status,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture,
+        t.id as t_id,t.`name` as t_name,
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        from `repair` r JOIN maintenance m ON r.id = m.repair_id
+        JOIN technician t on t.id = m.technician_id
+        where m.end_time is not null
+    </select>
 </mapper>

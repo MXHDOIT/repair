@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RepairService extends IService<Repair> {
     Page<Repair> findRepairPage(int pageNum);
+
+    Page<Repair> findUnallocatedRepairPage(int pageNum);
 }

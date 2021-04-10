@@ -26,7 +26,7 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">维修人员管理</a>
                     <dl class="layui-nav-child">
-                        <dd  class="layui-this"><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
                         <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
                         <dd><a href="/profession/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
                     </dl>
@@ -35,7 +35,7 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修记录</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd class="layui-this"><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
                         <dd><a href="/">&emsp;&emsp;所有报修记录</a></dd>
                         <dd><a href="/">&emsp;&emsp;已完成的维修记录</a></dd>
                     </dl>
@@ -49,30 +49,42 @@
     <div class="layui-body layui-container">
 
         <hr class="layui-bg-blue">
-        <h2 style="text-align:center">查询用户</h2>
+        <h2 style="text-align:center">未分配报修记录</h2>
         <hr class="layui-bg-blue">
 
         <table class="layui-table" lay-size="sm">
             <thead>
             <tr>
                 <th>编号</th>
-                <th>姓名</th>
-                <th>密码</th>
-                <th>职业</th>
-                <th>手机号</th>
-                <th>邮箱</th>
+                <th>问题详情</th>
+                <th>报修地点</th>
+                <th>提交时间</th>
+                <th>提交报修用户编号</th>
+                <th>现场照片</th>
+                <th>选择维修工人</th>
                 <th>操作</th>
             </tr>
             </thead>
-            <tr th:each="technician:${page.getRecords()}">
-                <td><label th:text="${technician.getId()}"></label></td>
-                <td><label th:text="${technician.getName()}"></label></td>
-                <td><label th:text="${technician.getPassword()}"></label></td>
-                <td><label th:text="${technician.getProfession()}"></label></td>
-                <td><label th:text="${technician.getPhone()}"></label></td>
-                <td><label th:text="${technician.getEmail()}"></label></td>
+            <tr th:each="repair:${page.getRecords()}">
+                <td><label th:text="${repair.getId()}"></label></td>
+                <td><label th:text="${repair.getDetail()}"></label></td>
+                <td><label th:text="${repair.getPlace()}"></label></td>
+                <td><label th:text="${repair.getSubmitTime()}"></label></td>
+                <td><label th:text="${repair.getUserId()}"></label></td>
+                <td><label>
+                    <img th:src="${repair.getPictureUrl()}">
+                </label></td>
                 <td>
-                    <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${technician.getId()}">删除
+                    <label>
+                        <select name="technician" lay-verify="required" id="technician">
+                            <option value=""></option>
+                            <option th:each="technician:${technicianList}"
+                                    th:value="${technician.getId()}" th:text="${technician.getName()}"></option>
+                        </select>
+                    </label>
+                </td>
+                <td>
+                    <button class="layui-btn layui-btn-sm layui-btn-danger" id="allocated" th:value="${repair.getId()}">点击分配
                     </button>
                 </td>
             </tr>
@@ -82,7 +94,7 @@
                     <div style="margin: auto; width: 160px;">
 
                         <a id="prePage"
-                           th:href="@{/technician/showTechniciansPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                           th:href="@{/repair/showUnallocatedRepairsPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -90,7 +102,7 @@
                         <span>/</span>
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
-                        <a id="nextPage" th:href="@{/technician/showTechniciansPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                        <a id="nextPage" th:href="@{/repair/showUnallocatedRepairsPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -107,7 +119,7 @@
 
 <script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
-<script src="/js/admin/showTechnicians.js"></script>
+<script src="/js/admin/showUnallocatedRepairs.js"></script>
 
 </body>
 </html>
