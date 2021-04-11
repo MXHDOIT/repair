@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
-@MapperScan("com.xpu.repair.mapper")
+//@MapperScan("com.xpu.repair.mapper")
 @ServletComponentScan("com.xpu.repair.filter")
 public class RepairApplication {
 

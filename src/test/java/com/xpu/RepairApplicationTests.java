@@ -2,6 +2,7 @@ package com.xpu;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.RepairApplication;
+import com.xpu.repair.entity.Repair;
 import com.xpu.repair.mapper.MaintenanceMapper;
 import com.xpu.repair.mapper.RepairMapper;
 import com.xpu.repair.mapper.TechnicianMapper;
@@ -26,13 +27,25 @@ class RepairApplicationTests {
 
     @Autowired
     MaintenanceMapper maintenanceMapper;
+
+    @Autowired
+    RepairMapper repairMapper;
+
     @Test
     void contextLoads() {
-       Page<MaintenanceVo> page = new Page<>(1,10);
-        List<MaintenanceVo> allMaintenanceVO = maintenanceMapper.findAllMaintenanceVO(page);
-        page.setRecords(allMaintenanceVO);
+       Page<RepairVo> page = new Page<>(1,10);
+//        List<MaintenanceVo> allMaintenanceVO = maintenanceMapper.findAllMaintenanceVO(page);
+//        page.setRecords(allMaintenanceVO);
+//
+//        System.out.println(page.getRecords().get(0));
 
-        System.out.println(page.getRecords().get(0));
+//        List<RepairVo> repairVos = repairMapper.listRepairDetail(page);
+//        page.setRecords(repairVos);
+//        System.out.println(page.getRecords());
+        List<RepairVo> repairVos = repairMapper.listRepairDetailByRepair(page, new Repair().setUserId("15251104224"));
+        page.setRecords(repairVos);
+
+        System.out.println(page.getRecords());
     }
 
 }

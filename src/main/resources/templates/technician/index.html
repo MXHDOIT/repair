@@ -1,17 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>维修人员-校园报修系统</title>
+    <title>普通用户-校园报修系统</title>
+    <link href="/layui/css/layui.css" rel="stylesheet"/>
+
 </head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
 
-<body>
-<div id="app">
-    维修人员首页
+    <div th:include="common/technician_header :: header"></div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree">
+
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;">维修管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/">&emsp;&emsp;未进行维修记录</a></dd>
+                        <dd><a href="/">&emsp;&emsp;已完成维修记录</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/technician/infoPage">个人信息</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body layui-container">
+        <div class="layui-carousel layui-container" id="index" style="margin-top: 40px;">
+            <div carousel-item>
+                <div><img src="/static/img/lib1.jpg"/></div>
+                <div><img src="/static/img/lib2.jpg"/></div>
+                <div><img src="/static/img/lib3.jpg"/></div>
+                <div><img src="/static/img/lib4.jpg"/></div>
+                <div><img src="/static/img/lib5.jpg"/></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:include="common/footer :: footer"></div>
+
 </div>
-</body>
 
+<script src="/static/js/jquery.min.js"></script>
+<script src="/layui/layui.js"></script>
+<script>
+
+    layui.use(['carousel', 'element'], function () {
+        let carousel = layui.carousel;
+        let element = layui.element;
+        //建造实例
+        carousel.render({
+            elem: '#index'
+            , width: '900' //设置容器宽度
+            , height: '550px' //设置容器高度
+            // , full:'true' //是否全屏轮播,默认false
+            // , arrow: 'always' //始终显示箭头和点击按钮
+            // ,anim: 'updown' //切换动画方式，可从各个方向滚动
+        });
+    });
+
+</script>
+
+</body>
 </html>

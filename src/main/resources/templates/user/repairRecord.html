@@ -1,47 +1,31 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>管理员-校园报修系统</title>
+    <title>普通用户-校园报修系统</title>
+
     <link href="/layui/css/layui.css" rel="stylesheet"/>
 
-
 </head>
+<body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
 
-    <div th:include="common/admin_header :: header"></div>
+    <div th:include="common/user_header :: header"></div>
 
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
 
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/user/showUsersPage?pageNum=1">&emsp;&emsp;查询用户</a></dd>
-                        <dd><a href="/user/addUserPage">&emsp;&emsp;新增用户</a></dd>
-                    </dl>
-                </li>
-
                 <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">维修人员管理</a>
+                    <a class="" href="javascript:;">报修管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
-                        <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
+                        <dd class="layui-this"><a href="/user/repairRecord">&emsp;&emsp;报修记录</a></dd>
+                        <dd><a href="/user/addRepairPage">&emsp;&emsp;报修</a></dd>
+                        <dd><a href="/user/remindersPage">&emsp;&emsp;催单</a></dd>
                     </dl>
                 </li>
-
-                <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">报修记录</a>
-                    <dl class="layui-nav-child">
-                        <dd ><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
-                        <dd class="layui-this"><a href="/repair/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd><a href="/maintenance/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item "><a href="/admin/infoPage">管理员信息</a></li>
+                <li class="layui-nav-item"><a href="/user/messagePage">个人信息</a></li>
             </ul>
         </div>
     </div>
@@ -59,9 +43,7 @@
                 <th>问题详情</th>
                 <th>报修地点</th>
                 <th>提交时间</th>
-                <th>提交报修用户编号</th>
                 <th>状态</th>
-                <th>现场照片</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -70,11 +52,7 @@
                 <td><label th:text="${repair.getDetail()}"></label></td>
                 <td><label th:text="${repair.getPlace()}"></label></td>
                 <td><label th:text="${repair.getSubmitTime()}"></label></td>
-                <td><label th:text="${repair.getUserId()}"></label></td>
-                <td><label th:text="${repair.getStatus()}"></label></td>
-                <td><label>
-                    <img th:src="${repair.getPictureUrl()}">
-                </label></td>
+                <td><label th:text="${repair.getStatusName()}" th:value="${repair.getStatus()}"></label></td>
                 <td>
                     <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${repair.getId()}">删除
                     </button>
@@ -85,7 +63,7 @@
                 <td colspan="5">
                     <div style="margin: auto; width: 160px;">
 
-                        <a id="prePage" th:href="@{/repair/showRepairsPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                        <a id="prePage" th:href="@{/user/repairRecord(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -94,7 +72,7 @@
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
 
-                        <a id="nextPage" th:href="@{/repair/showRepairsPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                        <a id="nextPage" th:href="@{/user/repairRecord(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -105,12 +83,18 @@
         </table>
     </div>
 
+
     <div th:include="common/footer :: footer"></div>
 
 </div>
 
-<script src="/js/jquery.min.js"></script>
+<script src="/static/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
+<script>
+    layui.use('element', function () {
+        let element = layui.element;
+    });
+</script>
 
 </body>
 </html>

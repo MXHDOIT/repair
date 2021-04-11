@@ -29,4 +29,14 @@ public enum RepairStatusEnum {
     public void setStatusName(String statusName) {
         this.statusName = statusName;
     }
+
+    public static RepairStatusEnum getById(int statusId){
+        RepairStatusEnum[] values = RepairStatusEnum.values();
+        for (RepairStatusEnum value : values) {
+            if (value.statusId == statusId) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

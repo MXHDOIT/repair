@@ -51,6 +51,12 @@ public class RepairController {
     @Autowired
     MaintenanceService maintenanceService;
 
+    /**
+     * 所有报修记录，分页
+     * @param model
+     * @param pageNum
+     * @return
+     */
     @RequestMapping(value = "showRepairsPage",method = RequestMethod.GET)
     public String showRepairsPage(Model model,@RequestParam(value = "pageNum",
             required = false,defaultValue = "1") int pageNum) {
@@ -59,6 +65,12 @@ public class RepairController {
         return "admin/showAllRepairs";
     }
 
+    /**
+     * 未分配的报修记录，分页
+     * @param model
+     * @param pageNum
+     * @return
+     */
     @RequestMapping(value = "showUnallocatedRepairsPage",method = RequestMethod.GET)
     public String showUnallocatedRepair(Model model,@RequestParam(value = "pageNum",
             required = false,defaultValue = "1") int pageNum) {
@@ -82,6 +94,12 @@ public class RepairController {
         return "/admin/showUnallocatedRepairs";
     }
 
+    /**
+     * 分配维修人员
+     * @param repairId
+     * @param technicianId
+     * @return
+     */
     @Transactional
     @RequestMapping(value = "allocated",method = RequestMethod.POST)
     @ResponseBody

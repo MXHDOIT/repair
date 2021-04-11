@@ -27,7 +27,7 @@ function updateUser() {
 
         async: false,
         type: 'post',
-        url: '/updateUser',
+        url: '/user/update',
         data: $('#updateUserForm').serialize(),
         success: function (data) {
             layer.alert('修 改 成 功', {icon: 1}, function () {

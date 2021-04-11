@@ -22,7 +22,5 @@ public class RepairVo {
 
     private Date submitTime;
 
-    private String userId;
-
     private User user;
 }

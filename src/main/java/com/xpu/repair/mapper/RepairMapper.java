@@ -1,8 +1,13 @@
 package com.xpu.repair.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.entity.Repair;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xpu.repair.vo.RepairVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +19,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RepairMapper extends BaseMapper<Repair> {
+    List<RepairVo> listRepairDetail(Page page);
 
+    List<RepairVo> listRepairDetailByRepair(Page page,Repair repair);
+
+    List<RepairVo> listReminderDetail(Page page);
 }

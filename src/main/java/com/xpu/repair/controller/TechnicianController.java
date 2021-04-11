@@ -124,5 +124,19 @@ public class TechnicianController {
         }
         return R.error().message("添加维修人员失败");
     }
+
+    @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
+    public String showInfoPage(HttpServletRequest request,Model model) {
+        Technician technician = (Technician) request.getSession().getAttribute("technician");
+        Integer professionId = technician.getProfessionId();
+        //个人工种
+        Profession myProfession = professionService.getById(professionId);
+        //所有工种
+        List<Profession> professionList = professionService.list(null);
+        model.addAttribute("myProfession",myProfession);
+        model.addAttribute("professionList",professionList);
+
+        return "technician/technicianMessage";
+    }
 }
 
