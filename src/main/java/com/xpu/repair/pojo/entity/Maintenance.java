@@ -1,4 +1,4 @@
-package com.xpu.repair.entity;
+package com.xpu.repair.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 催单表
+ * 维修记录表
  * </p>
  *
  * @author MaXinHang
@@ -21,8 +21,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Urgentrepair对象", description="催单表")
-public class Urgentrepair implements Serializable {
+@ApiModel(value="Maintenance对象", description="维修记录表")
+public class Maintenance implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,17 +30,20 @@ public class Urgentrepair implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "状态：0为待查看，1为已查看，2为被用户取消，默认为待查看")
-    private Integer status;
-
-    @ApiModelProperty(value = "该催单对应的报修单编号")
+    @ApiModelProperty(value = "该维修记录对应的报修单编号")
     private Integer repairId;
 
-    @ApiModelProperty(value = "发起该催单的用户的编号")
-    private String userId;
+    @ApiModelProperty(value = "维修人员的编号")
+    private String technicianId;
 
-    @ApiModelProperty(value = "催单的创建时间")
-    private Date createTime;
+    @ApiModelProperty(value = "维修开始的时间")
+    private Date startTime;
+
+    @ApiModelProperty(value = "维修结束的时间")
+    private Date endTime;
+
+    @ApiModelProperty(value = "维修完成后现场照片")
+    private String pictureUrl;
 
 
 }

@@ -1,9 +1,9 @@
 package com.xpu.repair.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Repair;
+import com.xpu.repair.pojo.entity.Repair;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xpu.repair.vo.RepairVo;
+import com.xpu.repair.pojo.vo.RepairVO;
 
 /**
  * <p>
@@ -18,8 +18,8 @@ public interface RepairService extends IService<Repair> {
 
     Page<Repair> findUnallocatedRepairPage(int pageNum);
 
-    Page<RepairVo> findRepairByUserId(int pageNum, String userId);
+    Page<RepairVO> findRepairByUserId(int pageNum, String userId);
 
-    Page<RepairVo> findReminders(int pageNum);
+    Page<RepairVO> findReminders(int pageNum);
 }
 

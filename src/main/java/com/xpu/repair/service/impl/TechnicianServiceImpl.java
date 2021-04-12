@@ -1,11 +1,11 @@
 package com.xpu.repair.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Technician;
+import com.xpu.repair.pojo.entity.Technician;
 import com.xpu.repair.mapper.TechnicianMapper;
 import com.xpu.repair.service.TechnicianService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xpu.repair.vo.TechnicianVo;
+import com.xpu.repair.pojo.vo.TechnicianVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +29,9 @@ public class TechnicianServiceImpl extends ServiceImpl<TechnicianMapper, Technic
     private static final int SIZE = 10;
 
     @Override
-    public Page<TechnicianVo> findTechnicianPage(int pageNum) {
-        Page<TechnicianVo> page = new Page<>(pageNum,SIZE);
-        List<TechnicianVo> pageTechnicians = technicianMapper.findPageTechnicians(page);
+    public Page<TechnicianVO> findTechnicianPage(int pageNum) {
+        Page<TechnicianVO> page = new Page<>(pageNum,SIZE);
+        List<TechnicianVO> pageTechnicians = technicianMapper.findPageTechnicians(page);
         page.setRecords(pageTechnicians);
         return page;
     }

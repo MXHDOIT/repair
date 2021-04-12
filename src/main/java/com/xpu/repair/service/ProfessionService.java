@@ -1,10 +1,8 @@
 package com.xpu.repair.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Profession;
+import com.xpu.repair.pojo.entity.Profession;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
  * <p>

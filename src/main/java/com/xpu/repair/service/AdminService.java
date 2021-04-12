@@ -1,6 +1,6 @@
 package com.xpu.repair.service;
 
-import com.xpu.repair.entity.Admin;
+import com.xpu.repair.pojo.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

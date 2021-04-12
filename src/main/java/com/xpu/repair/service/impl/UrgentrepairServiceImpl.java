@@ -1,6 +1,6 @@
 package com.xpu.repair.service.impl;
 
-import com.xpu.repair.entity.Urgentrepair;
+import com.xpu.repair.pojo.entity.Urgentrepair;
 import com.xpu.repair.mapper.UrgentrepairMapper;
 import com.xpu.repair.service.UrgentrepairService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

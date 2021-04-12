@@ -1,9 +1,9 @@
 package com.xpu.repair.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Technician;
+import com.xpu.repair.pojo.entity.Technician;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xpu.repair.vo.TechnicianVo;
+import com.xpu.repair.pojo.vo.TechnicianVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,5 +18,5 @@ import java.util.List;
  */
 @Repository
 public interface TechnicianMapper extends BaseMapper<Technician> {
-    List<TechnicianVo> findPageTechnicians(Page<TechnicianVo> page);
+    List<TechnicianVO> findPageTechnicians(Page<TechnicianVO> page);
 }

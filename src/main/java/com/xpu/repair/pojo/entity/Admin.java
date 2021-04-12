@@ -1,4 +1,4 @@
-package com.xpu.repair.entity;
+package com.xpu.repair.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 职业表
+ * 管理员表
  * </p>
  *
  * @author MaXinHang
@@ -20,16 +20,18 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Profession对象", description="职业表")
-public class Profession implements Serializable {
+@ApiModel(value="Admin对象", description="管理员表")
+public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "编号ID")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @ApiModelProperty(value = "管理员ID")
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    private String id;
 
-    @ApiModelProperty(value = "工种")
+    @ApiModelProperty(value = "密码")
+    private String password;
+
     private String name;
 
 

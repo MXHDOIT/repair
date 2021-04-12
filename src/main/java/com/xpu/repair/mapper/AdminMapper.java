@@ -1,6 +1,6 @@
 package com.xpu.repair.mapper;
 
-import com.xpu.repair.entity.Admin;
+import com.xpu.repair.pojo.entity.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

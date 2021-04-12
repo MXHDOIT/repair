@@ -1,6 +1,6 @@
 package com.xpu.repair.mapper;
 
-import com.xpu.repair.entity.User;
+import com.xpu.repair.pojo.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

@@ -2,12 +2,12 @@ package com.xpu.repair.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Repair;
+import com.xpu.repair.pojo.entity.Repair;
 import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.mapper.RepairMapper;
 import com.xpu.repair.service.RepairService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xpu.repair.vo.RepairVo;
+import com.xpu.repair.pojo.vo.RepairVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,15 +50,15 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
     }
 
     @Override
-    public Page<RepairVo> findRepairByUserId(int pageNum, String userId) {
-        Page<RepairVo> page = new Page<>(pageNum,SIZE);
+    public Page<RepairVO> findRepairByUserId(int pageNum, String userId) {
+        Page<RepairVO> page = new Page<>(pageNum,SIZE);
 
         //查询条件
         Repair repair = new Repair();
         repair.setUserId(userId);
         //查询数据库
-        List<RepairVo> repairVos = repairMapper.listRepairDetailByRepair(page, repair);
-        for (RepairVo repairVo : repairVos) {
+        List<RepairVO> repairVos = repairMapper.listRepairDetailByRepair(page, repair);
+        for (RepairVO repairVo : repairVos) {
             repairVo.setStatusName(RepairStatusEnum.getById(repairVo.getStatus()).getStatusName());
         }
         page.setRecords(repairVos);
@@ -67,13 +67,13 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
     }
 
     @Override
-    public Page<RepairVo> findReminders(int pageNum) {
-        Page<RepairVo> page = new Page<>(pageNum,SIZE);
+    public Page<RepairVO> findReminders(int pageNum) {
+        Page<RepairVO> page = new Page<>(pageNum,SIZE);
 
         //查询条件
         //查询数据库
-        List<RepairVo> repairVos = repairMapper.listReminderDetail(page);
-        for (RepairVo repairVo : repairVos) {
+        List<RepairVO> repairVos = repairMapper.listReminderDetail(page);
+        for (RepairVO repairVo : repairVos) {
             repairVo.setStatusName(RepairStatusEnum.getById(repairVo.getStatus()).getStatusName());
         }
         page.setRecords(repairVos);

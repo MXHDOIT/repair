@@ -1,9 +1,9 @@
 package com.xpu.repair.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Maintenance;
+import com.xpu.repair.pojo.entity.Maintenance;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xpu.repair.vo.MaintenanceVo;
+import com.xpu.repair.pojo.vo.MaintenanceVO;
 
 /**
  * <p>
@@ -14,5 +14,7 @@ import com.xpu.repair.vo.MaintenanceVo;
  * @since 2021-03-29
  */
 public interface MaintenanceService extends IService<Maintenance> {
-    Page<MaintenanceVo> findCompleteMaintenance(int pageNum);
+    Page<MaintenanceVO> findCompleteMaintenance(int pageNum);
+
+    Page<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(String technicianId, int pageNum);
 }

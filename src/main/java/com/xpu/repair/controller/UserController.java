@@ -2,13 +2,11 @@ package com.xpu.repair.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.dto.R;
-import com.xpu.repair.entity.Repair;
-import com.xpu.repair.entity.User;
+import com.xpu.repair.pojo.dto.ResultDTO;
+import com.xpu.repair.pojo.entity.User;
 import com.xpu.repair.service.RepairService;
 import com.xpu.repair.service.UserService;
-import com.xpu.repair.service.impl.RepairServiceImpl;
-import com.xpu.repair.vo.RepairVo;
+import com.xpu.repair.pojo.vo.RepairVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ public class UserController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public R login(@RequestParam("id") String id,@RequestParam("password") String password, HttpServletRequest request){
+    public ResultDTO login(@RequestParam("id") String id, @RequestParam("password") String password, HttpServletRequest request){
         logger.info("================user login===================");
         logger.info("admin id: "+id);
         logger.info("admin password: "+password);
@@ -57,10 +55,10 @@ public class UserController {
 
             if (user != null && password.equals(user.getPassword())){ //用户存在，并且密码正确
                 request.getSession().setAttribute("user",user);
-                return R.ok().data("url","user/index");
+                return ResultDTO.ok().data("url","user/index");
             }
         }
-        return R.error().message("账号或密码错误,请重新登录");
+        return ResultDTO.error().message("账号或密码错误,请重新登录");
     }
 
     /**
@@ -84,12 +82,12 @@ public class UserController {
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public R delete(String userId){
+    public ResultDTO delete(String userId){
         boolean result = userService.removeById(userId);
         if (result){
-            return R.ok().data("url","/user/showUsersPage");
+            return ResultDTO.ok().data("url","/user/showUsersPage");
         }
-        return R.error().message("删除失败");
+        return ResultDTO.error().message("删除失败");
     }
 
     /**
@@ -107,17 +105,17 @@ public class UserController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public R add(User user){
+    public ResultDTO add(User user){
         User userServiceById = userService.getById(user.getId());
         if (userServiceById != null){
-            return R.error().message("用户已经存在");
+            return ResultDTO.error().message("用户已经存在");
         }
 
         boolean save = userService.save(user);
         if (save){
-            return R.ok();
+            return ResultDTO.ok();
         }
-        return R.error().message("添加用户失败");
+        return ResultDTO.error().message("添加用户失败");
     }
 
     /**
@@ -137,12 +135,12 @@ public class UserController {
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
-    public R update(User user,HttpServletRequest request){
+    public ResultDTO update(User user, HttpServletRequest request){
         User userSession = (User) request.getSession().getAttribute("user");
         user.setId(userSession.getId());
 
         boolean updateResult = userService.updateById(user);
-        return R.ok();
+        return ResultDTO.ok();
     }
 
     /**
@@ -158,7 +156,7 @@ public class UserController {
         String userId = user.getId();
 
         //查询报修单通过user_id
-        Page<RepairVo> repairByUserId = repairService.findRepairByUserId(pageNum, userId);
+        Page<RepairVO> repairByUserId = repairService.findRepairByUserId(pageNum, userId);
 
         model.addAttribute("page",repairByUserId);
 
@@ -182,7 +180,7 @@ public class UserController {
      */
     @RequestMapping(value = "/remindersPage",method = RequestMethod.GET)
     public String showRemindersPage(Model model,@RequestParam(value = "pageNum",required = false,defaultValue = "1")int pageNum){
-        Page<RepairVo> reminders = repairService.findReminders(pageNum);
+        Page<RepairVO> reminders = repairService.findReminders(pageNum);
 
         model.addAttribute("page",reminders);
         return "user/reminders";

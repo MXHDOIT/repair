@@ -1,7 +1,7 @@
 package com.xpu.repair.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.User;
+import com.xpu.repair.pojo.entity.User;
 import com.xpu.repair.mapper.UserMapper;
 import com.xpu.repair.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,9 +1,9 @@
-package com.xpu.repair.vo;
+package com.xpu.repair.pojo.vo;
 
 import lombok.Data;
 
 @Data
-public class TechnicianVo {
+public class TechnicianVO {
 
     private String id;
 

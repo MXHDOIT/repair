@@ -1,13 +1,13 @@
-package com.xpu.repair.vo;
+package com.xpu.repair.pojo.vo;
 
-import com.xpu.repair.entity.Repair;
-import com.xpu.repair.entity.Technician;
+import com.xpu.repair.pojo.entity.Repair;
+import com.xpu.repair.pojo.entity.Technician;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class MaintenanceVo {
+public class MaintenanceVO {
 
     private Integer id;
 

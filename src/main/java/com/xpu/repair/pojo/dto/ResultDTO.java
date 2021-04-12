@@ -1,4 +1,4 @@
-package com.xpu.repair.dto;
+package com.xpu.repair.pojo.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class R {
+public class ResultDTO {
 
     private Boolean success;
     private Integer code;
@@ -14,11 +14,11 @@ public class R {
     private Map<String, Object> data = new HashMap<String, Object>();
 
     //把构造方法私有
-    private R() {}
+    private ResultDTO() {}
 
     //成功静态方法
-    public static R ok() {
-        R r = new R();
+    public static ResultDTO ok() {
+        ResultDTO r = new ResultDTO();
         r.setSuccess(true);
         r.setCode(ResultCode.SUCCESS);
         r.setMessage("成功");
@@ -26,35 +26,35 @@ public class R {
     }
 
     //失败静态方法
-    public static R error() {
-        R r = new R();
+    public static ResultDTO error() {
+        ResultDTO r = new ResultDTO();
         r.setSuccess(false);
         r.setCode(ResultCode.ERROR);
         r.setMessage("失败");
         return r;
     }
 
-    public R success(Boolean success){
+    public ResultDTO success(Boolean success){
         this.setSuccess(success);
         return this;
     }
 
-    public R message(String message){
+    public ResultDTO message(String message){
         this.setMessage(message);
         return this;
     }
 
-    public R code(Integer code){
+    public ResultDTO code(Integer code){
         this.setCode(code);
         return this;
     }
 
-    public R data(String key, Object value){
+    public ResultDTO data(String key, Object value){
         this.data.put(key, value);
         return this;
     }
 
-    public R data(Map<String, Object> map){
+    public ResultDTO data(Map<String, Object> map){
         this.setData(map);
         return this;
     }

@@ -1,10 +1,9 @@
 package com.xpu.repair.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Maintenance;
+import com.xpu.repair.pojo.entity.Maintenance;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xpu.repair.vo.MaintenanceVo;
+import com.xpu.repair.pojo.vo.MaintenanceVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +18,9 @@ import java.util.List;
  */
 @Repository
 public interface MaintenanceMapper extends BaseMapper<Maintenance> {
-    List<MaintenanceVo> findAllMaintenanceVO(Page page);
+    List<MaintenanceVO> findAllMaintenanceVO(Page page);
 
-    List<MaintenanceVo> findSuccessMaintenanceVO(Page page);
+    List<MaintenanceVO> findSuccessMaintenanceVO(Page page);
+
+    List<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
 }

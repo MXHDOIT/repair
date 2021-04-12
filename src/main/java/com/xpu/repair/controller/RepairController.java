@@ -4,11 +4,11 @@ package com.xpu.repair.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.xpu.repair.dto.R;
-import com.xpu.repair.entity.Maintenance;
-import com.xpu.repair.entity.Profession;
-import com.xpu.repair.entity.Repair;
-import com.xpu.repair.entity.Technician;
+import com.xpu.repair.pojo.dto.ResultDTO;
+import com.xpu.repair.pojo.entity.Maintenance;
+import com.xpu.repair.pojo.entity.Profession;
+import com.xpu.repair.pojo.entity.Repair;
+import com.xpu.repair.pojo.entity.Technician;
 import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.service.MaintenanceService;
 import com.xpu.repair.service.ProfessionService;
@@ -103,7 +103,7 @@ public class RepairController {
     @Transactional
     @RequestMapping(value = "allocated",method = RequestMethod.POST)
     @ResponseBody
-    public R allocated(int repairId,String technicianId) {
+    public ResultDTO allocated(int repairId, String technicianId) {
         Repair repair = repairService.getById(repairId);
         repair.setStatus(RepairStatusEnum.ALLOCATED.getStatusId());
 
@@ -118,9 +118,9 @@ public class RepairController {
 
         boolean saveResult = maintenanceService.save(maintenance);
         if (updateResult && saveResult){
-            return R.ok().data("url","/repair/showUnallocatedRepairsPage");
+            return ResultDTO.ok().data("url","/repair/showUnallocatedRepairsPage");
         }else {
-            return R.error().message("分配失败");
+            return ResultDTO.error().message("分配失败");
         }
     }
 }

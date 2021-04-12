@@ -1,15 +1,12 @@
 package com.xpu.repair.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.entity.Profession;
+import com.xpu.repair.pojo.entity.Profession;
 import com.xpu.repair.mapper.ProfessionMapper;
 import com.xpu.repair.service.ProfessionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>

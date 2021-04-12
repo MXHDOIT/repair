@@ -1,4 +1,4 @@
-package com.xpu.repair.dto;
+package com.xpu.repair.pojo.dto;
 
 public interface ResultCode {
 

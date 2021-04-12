@@ -3,8 +3,8 @@ package com.xpu.repair.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xpu.repair.dto.R;
-import com.xpu.repair.entity.Profession;
+import com.xpu.repair.pojo.dto.ResultDTO;
+import com.xpu.repair.pojo.entity.Profession;
 import com.xpu.repair.service.ProfessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,19 +50,19 @@ public class ProfessionController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public R add(String professionName){
+    public ResultDTO add(String professionName){
         QueryWrapper<Profession> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name",professionName);
         Profession profession = professionService.getOne(queryWrapper);
         if (profession!=null){
-            return R.error().message("此工种已经存在");
+            return ResultDTO.error().message("此工种已经存在");
         }
 
         boolean saveResult = professionService.save(new Profession().setName(professionName));
         if (saveResult) {
-            return R.ok();
+            return ResultDTO.ok();
         }
-        return R.error().message("添加失败");
+        return ResultDTO.error().message("添加失败");
     }
 
     /**
@@ -72,13 +72,13 @@ public class ProfessionController {
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public R delete(int professionId) {
+    public ResultDTO delete(int professionId) {
         boolean removeResult = professionService.removeById(professionId);
 
         if (removeResult){
-            return R.ok().data("url","/profession/addProfessionPage");
+            return ResultDTO.ok().data("url","/profession/addProfessionPage");
         }else {
-            return R.error().message("删除失败");
+            return ResultDTO.error().message("删除失败");
         }
     }
 }

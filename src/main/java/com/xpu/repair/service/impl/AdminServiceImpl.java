@@ -1,6 +1,6 @@
 package com.xpu.repair.service.impl;
 
-import com.xpu.repair.entity.Admin;
+import com.xpu.repair.pojo.entity.Admin;
 import com.xpu.repair.mapper.AdminMapper;
 import com.xpu.repair.service.AdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
