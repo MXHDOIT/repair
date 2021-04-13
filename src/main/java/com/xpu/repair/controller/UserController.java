@@ -1,20 +1,26 @@
 package com.xpu.repair.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.pojo.dto.ResultDTO;
-import com.xpu.repair.pojo.entity.User;
-import com.xpu.repair.service.RepairService;
-import com.xpu.repair.service.UserService;
+import com.xpu.repair.pojo.entity.*;
+import com.xpu.repair.service.*;
 import com.xpu.repair.pojo.vo.RepairVO;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * <p>
@@ -34,6 +40,18 @@ public class UserController {
 
     @Autowired
     RepairService repairService;
+
+    @Autowired
+    JavaMailSender javaMailSender;
+
+    @Autowired
+    MaintenanceService maintenanceService;
+
+    @Autowired
+    TechnicianService technicianService;
+
+    @Autowired
+    UrgentrepairService urgentrepairService;
 
     /**
      * 用户登录
@@ -184,6 +202,65 @@ public class UserController {
 
         model.addAttribute("page",reminders);
         return "user/reminders";
+    }
+
+    /**
+     * 进行催单，未完成
+     * @param repairId
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/reminders",method = RequestMethod.POST)
+    public ResultDTO reminders(int repairId,HttpServletRequest request){
+        Repair repair = repairService.getById(repairId);
+        //得到状态
+        Integer status = repair.getStatus();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("maxinhangdoit@163.com");
+        if (status == RepairStatusEnum.UNALLOCATED.getStatusId()){
+            //未分配，给管理员发邮件
+            mailMessage.setTo("2826372596@qq.com");
+        }else {
+            //分配未完成，给维修人员发邮件，并产生记录
+            QueryWrapper<Maintenance> queryWrapper = new QueryWrapper<>();
+            Maintenance maintenance = maintenanceService.getOne(queryWrapper.eq("repair_id", repairId));
+            Technician technician = technicianService.getById(maintenance.getTechnicianId());
+            //接受者邮箱
+            mailMessage.setTo(technician.getEmail());
+
+            //获得用户ID
+            User user = (User) request.getSession().getAttribute("user");
+
+            //记录入库
+            Urgentrepair urgentrepair = new Urgentrepair();
+            urgentrepair.setStatus(repair.getStatus());
+            urgentrepair.setRepairId(repairId);
+            urgentrepair.setUserId(user.getId());
+            urgentrepair.setCreateTime(new Date());
+            urgentrepairService.save(urgentrepair);
+        }
+        mailMessage.setSubject(repairId+"号报修催单");
+        mailMessage.setText("在"+repair.getPlace()+"发生"+repair.getDetail()+"故障，影响正常生活和学习，请及时维修");
+        javaMailSender.send(mailMessage);
+        return ResultDTO.ok().data("url","/user/remindersPage");
+    }
+
+    @RequestMapping(value = "/deleteRepair",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO deleteRepair(int repairId) {
+        Repair repair = repairService.getById(repairId);
+
+        //只有未分配的可以删除
+        if (repair.getStatus() == RepairStatusEnum.UNALLOCATED.getStatusId()){
+            boolean removeResult = repairService.removeById(repairId);
+            if (removeResult){
+                return ResultDTO.ok().data("url","/user/repairRecord");
+            }else {
+                return ResultDTO.error().message("删除失败");
+            }
+        }
+
+        return ResultDTO.error().message("不能删除已经分配或已经维修完成的报修记录");
     }
 }
 

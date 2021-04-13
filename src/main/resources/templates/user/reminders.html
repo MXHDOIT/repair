@@ -52,7 +52,7 @@
                 <td><label th:text="${repair.getPlace()}"></label></td>
                 <td><label th:text="${repair.getSubmitTime()}"></label></td>
                 <td>
-                    <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${repair.getId()}">催单
+                    <button class="layui-btn layui-btn-sm layui-btn-danger reminders_btn" th:value="${repair.getId()}">催单
                     </button>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
 
-                        <a id="nextPage" th:href="@{/user/remindersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                        <a id="nextPage" th:href="@{/user/remindersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()< page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -86,8 +86,9 @@
 
 </div>
 
-<script src="/static/js/jquery.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
+<script src="/js/user/reminders.js"></script>
 <script>
     layui.use('element', function () {
         let element = layui.element;

@@ -17,4 +17,6 @@ public interface MaintenanceService extends IService<Maintenance> {
     Page<MaintenanceVO> findCompleteMaintenance(int pageNum);
 
     Page<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(String technicianId, int pageNum);
+
+    Page<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, int pageNum);
 }

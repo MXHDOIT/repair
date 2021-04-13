@@ -23,4 +23,6 @@ public interface MaintenanceMapper extends BaseMapper<Maintenance> {
     List<MaintenanceVO> findSuccessMaintenanceVO(Page page);
 
     List<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
+
+    List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
 }

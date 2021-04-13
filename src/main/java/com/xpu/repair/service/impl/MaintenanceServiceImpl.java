@@ -6,6 +6,8 @@ import com.xpu.repair.mapper.MaintenanceMapper;
 import com.xpu.repair.service.MaintenanceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maintenance> implements MaintenanceService {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     MaintenanceMapper maintenanceMapper;
@@ -40,6 +44,16 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
         Page<MaintenanceVO> page = new Page<>(pageNum,SIZE);
         List<MaintenanceVO> unCompleteMaintenanceVO = maintenanceMapper.listUnCompleteMaintenanceByTechnicianId(page,technicianId);
         page.setRecords(unCompleteMaintenanceVO);
+        logger.info("records {}",unCompleteMaintenanceVO);
+        return page;
+    }
+
+    @Override
+    public Page<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, int pageNum) {
+        Page<MaintenanceVO> page = new Page<>(pageNum,SIZE);
+        List<MaintenanceVO> unCompleteMaintenanceVO = maintenanceMapper.listCompleteMaintenanceByTechnicianId(page,technicianId);
+        page.setRecords(unCompleteMaintenanceVO);
+        logger.info("records {}",unCompleteMaintenanceVO);
         return page;
     }
 }

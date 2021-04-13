@@ -129,6 +129,20 @@ public class TechnicianController {
         return ResultDTO.error().message("添加维修人员失败");
     }
 
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO update(Technician technician,HttpServletRequest request){
+        Technician technicianSession = (Technician) request.getSession().getAttribute("technician");
+        String technicianSessionId = technicianSession.getId();
+
+        boolean updateResult = technicianService.updateById(technician.setId(technicianSessionId));
+        if (updateResult) {
+            return ResultDTO.ok();
+        }else {
+            return ResultDTO.error();
+        }
+    }
+
     /**
      * 跳转个人信息页面
      * @param request
@@ -149,6 +163,13 @@ public class TechnicianController {
         return "technician/technicianMessage";
     }
 
+    /**跳转到未完成维修页面
+     *
+     * @param model
+     * @param pageNum
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/unCompleteMaintenancePage",method = RequestMethod.GET)
     public String showUnCompleteMaintenancePage(Model model,@RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum,HttpServletRequest request) {
         Technician technician = (Technician) request.getSession().getAttribute("technician");
@@ -157,6 +178,23 @@ public class TechnicianController {
         Page<MaintenanceVO> maintenanceVOPage = maintenanceService.listUnCompleteMaintenanceByTechnicianId(technicianId, pageNum);
         model.addAttribute("page",maintenanceVOPage);
         return "technician/unCompleteMaintenance";
+    }
+
+    /**
+     * 跳转到维修完成完成页面
+     * @param model
+     * @param pageNum
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/completeMaintenancePage",method = RequestMethod.GET)
+    public String showCompleteMaintenancePage(Model model,@RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum,HttpServletRequest request) {
+        Technician technician = (Technician) request.getSession().getAttribute("technician");
+        String technicianId = technician.getId();
+
+        Page<MaintenanceVO> maintenanceVOPage = maintenanceService.listCompleteMaintenanceByTechnicianId(technicianId, pageNum);
+        model.addAttribute("page",maintenanceVOPage);
+        return "technician/completeMaintenance";
     }
 }
 

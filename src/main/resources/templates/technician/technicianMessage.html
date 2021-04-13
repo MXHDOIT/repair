@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>普通用户-校园报修系统</title>
+    <title>维修人员-校园报修系统</title>
     <link href="/layui/css/layui.css" rel="stylesheet"/>
 
 </head>
@@ -20,8 +20,8 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/">&emsp;&emsp;未进行维修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;已完成维修记录</a></dd>
+                        <dd><a href="/technician/unCompleteMaintenancePage">&emsp;&emsp;未进行维修记录</a></dd>
+                        <dd><a href="/technician/completeMaintenancePage">&emsp;&emsp;已完成维修记录</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="/technician/infoPage">个人信息</a></li>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="layui-row">
-            <button id="modify-user" class="layui-btn" style="display: block; margin: 10px auto;">修改信息</button>
+            <button id="modify-technician" class="layui-btn" style="display: block; margin: 10px auto;">修改信息</button>
         </div>
 
         <div id="window" title="修改信息" style="margin: 5%; display: none">
@@ -80,7 +80,7 @@
                     <label class="layui-form-label">工种</label>
 
                     <div class="layui-input-block">
-                        <select id="profession" name="profession" lay-verify="required" th:value="${myProfession.getId()}">
+                        <select id="professionId" name="professionId" lay-verify="required" th:value="${myProfession.getId()}">
                             <option th:each="profession:${professionList}" th:value="${profession.getId()}"  th:text="${profession.getName()}"
                             th:selected="${profession.getId() eq myProfession.getId()}"></option>
                         </select>
@@ -125,7 +125,7 @@
 
 <script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
-<script src="/js/user/userMessage.js"></script>
+<script src="/js/technician/technicianMessage.js"></script>
 
 </body>
 </html>
