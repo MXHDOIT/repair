@@ -6,7 +6,7 @@ layui.use(['form', 'element','layer'], function () {
 
 
 //点击完成维修按钮后
- $(".del_btn").on('click',function () {
+ $(".complete_btn").on('click',function () {
      let that = $(this);
     //页面层
      layer.open({
@@ -25,15 +25,16 @@ layui.use(['form', 'element','layer'], function () {
  });
 
 function completeMaintenance(maintenanceId) {
+    var formData = new FormData();
+    formData.append("maintenanceId",maintenanceId);
+    formData.append("file",$('#picture')[0].files[0]);
     $.ajax({
-
         async: false,
         type: 'post',
         url: '/technician/completeMaintenance',
-        data: {
-            maintenanceId:maintenanceId,
-            file:$('#picture').val()
-        },
+        contentType: false,
+        processData: false,
+        data: formData,
         success: function (data) {
             layer.alert('上 传 成 功', {icon: 1}, function () {
                 location.reload();

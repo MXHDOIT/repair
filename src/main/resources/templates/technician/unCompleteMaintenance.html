@@ -55,7 +55,7 @@
                     <img th:src="${maintenance.getRepair().getPictureUrl()}">
                 </label></td>
                 <td>
-                    <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${maintenance.getId()}">完成维修
+                    <button class="layui-btn layui-btn-sm layui-btn-danger complete_btn" th:value="${maintenance.getId()}">完成维修
                     </button>
                 </td>
             </tr>
@@ -102,11 +102,5 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
 <script src="/js/technician/unCompleteMaintenance.js"></script>
-<script>
-    layui.use('element', function () {
-        let element = layui.element;
-    });
-</script>
-
 </body>
 </html>

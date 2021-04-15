@@ -1,15 +1,16 @@
 package com.xpu.repair.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.Maintenance;
 import com.xpu.repair.pojo.entity.Profession;
+import com.xpu.repair.pojo.entity.Repair;
 import com.xpu.repair.pojo.entity.Technician;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
-import com.xpu.repair.service.MaintenanceService;
-import com.xpu.repair.service.ProfessionService;
-import com.xpu.repair.service.TechnicianService;
+import com.xpu.repair.service.*;
 import com.xpu.repair.pojo.vo.TechnicianVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +45,12 @@ public class TechnicianController {
 
     @Autowired
     MaintenanceService maintenanceService;
+
+    @Autowired
+    RepairService repairService;
+
+    @Autowired
+    FileService fileService;
 
     /**
      * 维修人员登录
@@ -195,6 +204,28 @@ public class TechnicianController {
         Page<MaintenanceVO> maintenanceVOPage = maintenanceService.listCompleteMaintenanceByTechnicianId(technicianId, pageNum);
         model.addAttribute("page",maintenanceVOPage);
         return "technician/completeMaintenance";
+    }
+
+    @RequestMapping(value = "/completeMaintenance",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO completeMaintenance(int maintenanceId, MultipartFile file){
+        logger.info(maintenanceId+"");
+        logger.info(file.toString());
+        //存储图片到OSS，获取指定url
+        String uploadUrl = fileService.upload(file);
+
+        //更新数据库
+        //维修表
+        Maintenance maintenance = maintenanceService.getById(maintenanceId);
+        maintenance.setEndTime(new Date());
+        maintenance.setPictureUrl(uploadUrl);
+        boolean updateResultMaintenance = maintenanceService.updateById(maintenance);
+        //报修表
+        Repair repair = repairService.getById(maintenance.getRepairId());
+        repair.setStatus(RepairStatusEnum.COMPLETE.getStatusId());
+        boolean updateResultRepair = repairService.updateById(repair);
+        //返回
+        return ResultDTO.ok();
     }
 }
 

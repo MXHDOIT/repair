@@ -37,12 +37,12 @@
 
         <div class="content-text">
 
-            <form class="form-horizontal" method="post" action="#"
+            <form class="form-horizontal" method="post" action="/user/addRepair"
             enctype="multipart/form-data">
             <fieldset  class="layui-elem-field layui-field-title" style="margin-top: 50px;">
                 <legend>故障填写提交</legend>
 
-                <input type=hidden name="id" value=${repair.id}>
+<!--                <input type=hidden name="id" value=${repair.id}>-->
 
                 <table class="layui-table" lay-size="lg">
                     <colgroup>
@@ -88,6 +88,13 @@
 
 <script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
+<script>
+    layui.use(['form', 'element','layer'], function () {
+        let form = layui.form;
+        let element = layui.element;
+        let layer = layui.layer;
+    });
 
+</script>
 </body>
 </html>

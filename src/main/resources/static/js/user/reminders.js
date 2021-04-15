@@ -19,12 +19,6 @@ $(function () {
 
             remindersByRepairId(repairId);
 
-            setTimeout(function () {
-
-                // 关闭所有 layer选项框
-                parent.layer.closeAll();
-            }, 1000)
-
         });
 
     });
@@ -44,9 +38,9 @@ function remindersByRepairId(repairId) {
                 layer.msg("催单成功", {icon: 1, time: 1500});
 
                 // 添加成功后跳转页面
-                // setTimeout(function () {
-                //     window.location.href=data.data['url'];
-                // }, 1500)
+                setTimeout(function () {
+                    window.location.href=data.data['url'];
+                }, 1500)
             }else {
                 layer.msg(data.message, {icon: 2});
             }

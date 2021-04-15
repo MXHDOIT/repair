@@ -18,6 +18,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -53,6 +54,9 @@ public class UserController {
     @Autowired
     UrgentrepairService urgentrepairService;
 
+    @Autowired
+    FileService fileService;
+
     /**
      * 用户登录
      * @param id
@@ -79,19 +83,7 @@ public class UserController {
         return ResultDTO.error().message("账号或密码错误,请重新登录");
     }
 
-    /**
-     * 分页查询用户
-     * @param model
-     * @param pageNum
-     * @return
-     */
-    @RequestMapping(value = "/showUsersPage",method = RequestMethod.GET)
-    public String showUsersPage(Model model, @RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
-        Page<User> userByPage = userService.findUserByPage(pageNum);
-        model.addAttribute("page",userByPage);
-        logger.info("userByPage"+userByPage.getRecords());
-        return "admin/showUsers";
-    }
+
 
     /**
      * 通过userId删除用户
@@ -108,13 +100,7 @@ public class UserController {
         return ResultDTO.error().message("删除失败");
     }
 
-    /**
-     * 返回添加用户页面
-     */
-    @RequestMapping(value = "/addUserPage",method = RequestMethod.GET)
-    public String addUserPage() {
-        return "admin/addUser";
-    }
+
 
     /**
      * 添加用户
@@ -211,6 +197,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/reminders",method = RequestMethod.POST)
+    @ResponseBody
     public ResultDTO reminders(int repairId,HttpServletRequest request){
         Repair repair = repairService.getById(repairId);
         //得到状态
@@ -245,6 +232,11 @@ public class UserController {
         return ResultDTO.ok().data("url","/user/remindersPage");
     }
 
+    /**
+     * 删除未分配的报修记录
+     * @param repairId
+     * @return
+     */
     @RequestMapping(value = "/deleteRepair",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO deleteRepair(int repairId) {
@@ -261,6 +253,30 @@ public class UserController {
         }
 
         return ResultDTO.error().message("不能删除已经分配或已经维修完成的报修记录");
+    }
+
+    /**
+     * 新增报修
+     * @param detail
+     * @param place
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/addRepair",method = RequestMethod.POST)
+    public String addRepair(String detail, String place, MultipartFile file,HttpServletRequest request) {
+        //上传图片到阿里云OSS返回访问url
+        String uploadUrl = fileService.upload(file);
+        //session中获取用户信息
+        User user = (User) request.getSession().getAttribute("user");
+        Repair repair = new Repair();
+        repair.setUserId(user.getId());
+        repair.setDetail(detail);
+        repair.setPlace(place);
+        repair.setPictureUrl(uploadUrl);
+        repair.setSubmitTime(new Date());
+        boolean saveResult = repairService.save(repair);
+
+        return "redirect:/user/repairRecord";
     }
 }
 

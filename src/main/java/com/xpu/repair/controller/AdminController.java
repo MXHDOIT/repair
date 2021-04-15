@@ -1,9 +1,12 @@
 package com.xpu.repair.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.Admin;
+import com.xpu.repair.pojo.entity.User;
 import com.xpu.repair.service.AdminService;
+import com.xpu.repair.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    UserService userService;
 
     /**
      * 管理员登录
@@ -62,6 +68,28 @@ public class AdminController {
     @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
     public String infoPage(Model model){
         return "admin/adminInfo";
+    }
+
+    /**
+     * 跳转分页查询用户页面
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/showUsersPage",method = RequestMethod.GET)
+    public String showUsersPage(Model model, @RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
+        Page<User> userByPage = userService.findUserByPage(pageNum);
+        model.addAttribute("page",userByPage);
+        logger.info("userByPage"+userByPage.getRecords());
+        return "admin/showUsers";
+    }
+
+    /**
+     * 跳转添加用户页面
+     */
+    @RequestMapping(value = "/addUserPage",method = RequestMethod.GET)
+    public String addUserPage() {
+        return "admin/addUser";
     }
 }
 

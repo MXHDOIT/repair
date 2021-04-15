@@ -22,7 +22,7 @@
     <select id="findAllMaintenanceVO" resultMap="maintenanceVoMap">
         select r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,
         t.id as t_id,t.`name` as t_name,
-        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_picture_url
         from `repair` r JOIN maintenance m ON r.id = m.repair_id
         JOIN technician t on t.id = m.technician_id
     </select>
@@ -30,7 +30,7 @@
     <select id="findSuccessMaintenanceVO" resultMap="maintenanceVoMap">
         select r.id as r_id,r.`status` as r_status,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,
         t.id as t_id,t.`name` as t_name,
-        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_picture_url
         from `repair` r JOIN maintenance m ON r.id = m.repair_id
         JOIN technician t on t.id = m.technician_id
         where m.end_time is not null
@@ -39,7 +39,7 @@
     <select id="listUnCompleteMaintenanceByTechnicianId" resultMap="maintenanceVoMap">
         select r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,
         t.id as t_id,t.`name` as t_name,
-        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_picture_url
         from `repair` r JOIN maintenance m ON r.id = m.repair_id
         JOIN technician t on t.id = m.technician_id
         where t.id = #{technicianId} and m.end_time is null
@@ -48,7 +48,7 @@
     <select id="listCompleteMaintenanceByTechnicianId" resultMap="maintenanceVoMap">
         select r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,
         t.id as t_id,t.`name` as t_name,
-        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_pictutre_url
+        m.id as m_id,m.start_time as m_start_time,m.end_time as m_end_time,m.picture_url as m_picture_url
         from `repair` r JOIN maintenance m ON r.id = m.repair_id
         JOIN technician t on t.id = m.technician_id
         where t.id = #{technicianId} and m.end_time is not null
