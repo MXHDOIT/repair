@@ -15,9 +15,9 @@ $(function () {
         layer.confirm('确认删除?', {
             btn: ['确认', '取消'] //按钮
         }, function () {
-            let userId = that.val();
+            let repairId = that.val();
 
-            deleteUserById(userId);
+            deleteRepairById(repairId);
 
         });
 
@@ -26,13 +26,13 @@ $(function () {
 });
 
 //ajax删除用户
-function deleteUserById(userId) {
+function deleteRepairById(repairId) {
     $.ajax({
         async: false,
         type: "post",
-        url: "/admin/deleteUser",
+        url: "/admin/deleteRepair",
         dataType: "json",
-        data: {userId: userId},
+        data: {repairId: repairId},
         success: function (data) {
             if (data.success == true){
                 layer.msg("删除成功", {icon: 1, time: 1500});

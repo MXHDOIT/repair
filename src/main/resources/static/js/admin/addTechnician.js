@@ -21,7 +21,7 @@ function addUser() {
     $.ajax({
         async: false,
         type: 'post',
-        url: '/technician/add',
+        url: '/admin/addTechnician',
         data: {
             'id':id,
             'name':name,
@@ -36,7 +36,7 @@ function addUser() {
 
                 // 添加成功后重新加载页面
                 setTimeout(function () {
-                    location.reload();
+                    window.location.href=data.data['url'];
                 }, 1500)
             }else {
                 layer.msg(data.message, {icon: 2});

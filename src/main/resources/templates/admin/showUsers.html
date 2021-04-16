@@ -26,22 +26,22 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">维修人员管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
-                        <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
-                        <dd><a href="/profession/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
+                        <dd><a href="/admin/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                        <dd><a href="/admin/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
+                        <dd><a href="/admin/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
                     </dl>
                 </li>
 
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修记录</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;已完成的维修记录</a></dd>
+                        <dd><a href="/admin/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd><a href="/admin/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                        <dd><a href="/admin/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item "><a href="/admin/infoPage">管理员信息</a></li>
+                <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
             </ul>
         </div>
     </div>
@@ -82,7 +82,7 @@
                     <div style="margin: auto; width: 160px;">
 
                         <a id="prePage"
-                           th:href="@{/user/showUsersPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                           th:href="@{/admin/showUsersPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -90,7 +90,7 @@
                         <span>/</span>
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
-                        <a id="nextPage" th:href="@{/user/showUsersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                        <a id="nextPage" th:href="@{/admin/showUsersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>

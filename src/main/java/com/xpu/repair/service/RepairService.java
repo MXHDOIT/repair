@@ -18,6 +18,8 @@ public interface RepairService extends IService<Repair> {
 
     Page<Repair> findUnallocatedRepairPage(int pageNum);
 
+    Page<RepairVO> findAllRepairs(int pageNum);
+
     Page<RepairVO> findRepairByUserId(int pageNum, String userId);
 
     Page<RepairVO> findReminders(int pageNum);

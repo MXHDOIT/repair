@@ -83,50 +83,20 @@ public class UserController {
         return ResultDTO.error().message("账号或密码错误,请重新登录");
     }
 
-
-
     /**
-     * 通过userId删除用户
-     * @param userId
+     * 跳转首页面
      * @return
      */
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO delete(String userId){
-        boolean result = userService.removeById(userId);
-        if (result){
-            return ResultDTO.ok().data("url","/user/showUsersPage");
-        }
-        return ResultDTO.error().message("删除失败");
-    }
-
-
-
-    /**
-     * 添加用户
-     * @param user
-     * @return
-     */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO add(User user){
-        User userServiceById = userService.getById(user.getId());
-        if (userServiceById != null){
-            return ResultDTO.error().message("用户已经存在");
-        }
-
-        boolean save = userService.save(user);
-        if (save){
-            return ResultDTO.ok();
-        }
-        return ResultDTO.error().message("添加用户失败");
+    @RequestMapping(value = {"/index"},method = RequestMethod.GET)
+    public String userIndex(){
+        return "user/index";
     }
 
     /**
-     * 跳转到个人信息页面
+     * 跳转到用户个人信息页面
      * @return
      */
-    @RequestMapping(value = "/messagePage",method = RequestMethod.GET)
+    @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
     public String messagePage(){
         return "user/userMessage";
     }
@@ -246,7 +216,7 @@ public class UserController {
         if (repair.getStatus() == RepairStatusEnum.UNALLOCATED.getStatusId()){
             boolean removeResult = repairService.removeById(repairId);
             if (removeResult){
-                return ResultDTO.ok().data("url","/user/repairRecord");
+                return ResultDTO.ok();
             }else {
                 return ResultDTO.error().message("删除失败");
             }

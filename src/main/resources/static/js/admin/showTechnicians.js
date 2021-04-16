@@ -18,15 +18,6 @@ $(function () {
             let technicianId = that.val();
 
             deleteTechnicianById(technicianId);
-
-            that.parent().parent().remove();
-            layer.msg("删除成功", {icon: 1, time: 1000});
-            setTimeout(function () {
-
-                // 关闭所有 layer选项框
-                parent.layer.closeAll();
-            }, 1000)
-
         });
 
     });
@@ -38,16 +29,15 @@ function deleteTechnicianById(technicianId) {
     $.ajax({
         async: false,
         type: "post",
-        url: "/technician/delete",
+        url: "/admin/deleteTechnician",
         dataType: "json",
         data: {technicianId: technicianId},
         success: function (data) {
             if (data.success){
                 layer.msg("删除成功", {icon: 1, time: 1500});
 
-                // 添加成功后跳转页面
                 setTimeout(function () {
-                    window.location.href=data.data['url'];
+                    location.reload();
                 }, 1500)
             }else {
                 layer.msg(data.message, {icon: 2});

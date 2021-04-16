@@ -39,7 +39,7 @@ function deleteRepairById(repairId) {
 
                 // 添加成功后跳转页面
                 setTimeout(function () {
-                    window.location.href=data.data['url'];
+                    location.reload();
                 }, 1500)
             }else {
                 layer.msg(data.message, {icon: 2});

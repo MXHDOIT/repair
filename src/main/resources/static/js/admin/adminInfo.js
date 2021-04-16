@@ -27,7 +27,7 @@ function updateAdmin() {
 
         async: false,
         type: 'post',
-        url: '/updateAdmin',
+        url: '/admin/update',
         data: $('#updateAdminForm').serialize(),
         success: function (data) {
             layer.alert('修 改 成 功', {icon: 1}, function () {

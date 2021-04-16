@@ -50,6 +50,20 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
     }
 
     @Override
+    public Page<RepairVO> findAllRepairs(int pageNum) {
+        Page<RepairVO> page = new Page<>(pageNum,SIZE);
+
+        //查询数据库
+        List<RepairVO> repairVos = repairMapper.findAllRepairs(page);
+        for (RepairVO repairVo : repairVos) {
+            repairVo.setStatusName(RepairStatusEnum.getById(repairVo.getStatus()).getStatusName());
+        }
+        page.setRecords(repairVos);
+
+        return page;
+    }
+
+    @Override
     public Page<RepairVO> findRepairByUserId(int pageNum, String userId) {
         Page<RepairVO> page = new Page<>(pageNum,SIZE);
 

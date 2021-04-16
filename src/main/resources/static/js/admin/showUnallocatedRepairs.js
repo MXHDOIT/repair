@@ -8,7 +8,7 @@ $("#allocated").click(function() {
     $.ajax({
         async: false,
         type: "post",
-        url: "/repair/allocated",
+        url: "/admin/allocated",
         dataType: "json",
         data: {
             repairId: $("#allocated").val(),

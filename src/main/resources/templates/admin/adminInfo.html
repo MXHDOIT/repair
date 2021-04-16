@@ -27,22 +27,22 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">维修人员管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
-                        <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
-                        <dd><a href="/profession/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
+                        <dd><a href="/admin/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                        <dd><a href="/admin/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
+                        <dd><a href="/admin/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
                     </dl>
                 </li>
 
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修记录</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;已完成的维修记录</a></dd>
+                        <dd><a href="/admin/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd><a href="/admin/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                        <dd><a href="/admin/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item"><a class="" href="/admin/infoPage">个人信息</a></li>
+                <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
             </ul>
         </div>
     </div>
@@ -85,7 +85,7 @@
                     <label class="layui-form-label">名字</label>
 
                     <div class="layui-input-block">
-                        <input type="text" name="adminName" th:value="${session.admin.getName()}" id="name"
+                        <input type="text" name="name" th:value="${session.admin.getName()}" id="name"
                                class="layui-input">
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                     <label class="layui-form-label">密码</label>
 
                     <div class="layui-input-block">
-                        <input type="text" name="adminPwd" id="password" class="layui-input"
+                        <input type="text" name="password" id="password" class="layui-input"
                                th:value="${session.admin.getPassword()}">
                     </div>
                 </div>

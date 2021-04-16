@@ -26,22 +26,22 @@
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">维修人员管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/technician/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
-                        <dd><a href="/technician/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
-                        <dd class="layui-this"><a href="/profession/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
+                        <dd><a href="/admin/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                        <dd><a href="/admin/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
+                        <dd class="layui-this"><a href="/admin/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
                     </dl>
                 </li>
 
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;">报修记录</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/repair/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd><a href="/">&emsp;&emsp;已完成的维修记录</a></dd>
+                        <dd><a href="/admin/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                        <dd><a href="/admin/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                        <dd><a href="/admin/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item "><a href="/admin/infoPage">管理员信息</a></li>
+                <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
             </ul>
         </div>
     </div>
@@ -56,7 +56,7 @@
                 <h2 style="text-align:center">新建工种</h2>
                 <hr class="layui-bg-blue">
 
-                <form class="layui-form" id="addBookCategoryForm">
+                <form class="layui-form" id="addProfessionForm">
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">工种</label>
@@ -67,7 +67,7 @@
                     <input name="pageNum" value="1" style="display: none">
 
                     <div style="margin-left: 100px">
-                        <input lay-filter="btn_addBookCategory" lay-submit="" id="btn_addBookCategory" type="submit"
+                        <input lay-filter="btn_addBookCategory" lay-submit="" id="btn_addProfession" type="submit"
                                class="layui-btn " value="添加工种">
                     </div>
                 </form>
@@ -92,7 +92,7 @@
                         <td><label th:text="${profession.getId()}"></label></td>
                         <td><label th:text="${profession.getName()}"></label></td>
                         <td>
-                            <button class="layui-btn layui-btn-sm layui-btn-danger btn_deleteCategory"
+                            <button class="layui-btn layui-btn-sm layui-btn-danger btn_deleteProfession"
                                     th:value="${profession.getId()}">删除
                             </button>
                         </td>
@@ -103,7 +103,7 @@
                             <div style="margin: auto; width: 160px;">
 
                                 <a id="prePage" href="/profession/addProfessionPage?pageNum=1"
-                                   th:href="@{/profession/addProfessionPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                                   th:href="@{/admin/addProfessionPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
                                     <button class="layui-btn layui-btn-sm" >上一页</button>
                                 </a>
                                 <label id="lab1" th:text="${page.getPages()}"></label>
@@ -112,7 +112,7 @@
 
                                 <label id="lab2" th:text="${page.getPages()}"></label>
                                 <a id="nextPage" href="/profession/addProfessionPage?pageNum=2"
-                                   th:href="@{/profession/addProfessionPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                                   th:href="@{/admin/addProfessionPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
                                     <button class="layui-btn layui-btn-sm">下一页</button>
                                 </a>
                             </div>

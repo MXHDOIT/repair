@@ -1,20 +1,28 @@
 package com.xpu.repair.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
+import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.pojo.dto.ResultDTO;
-import com.xpu.repair.pojo.entity.Admin;
-import com.xpu.repair.pojo.entity.User;
-import com.xpu.repair.service.AdminService;
-import com.xpu.repair.service.UserService;
+import com.xpu.repair.pojo.entity.*;
+import com.xpu.repair.pojo.vo.MaintenanceVO;
+import com.xpu.repair.pojo.vo.RepairVO;
+import com.xpu.repair.pojo.vo.TechnicianVO;
+import com.xpu.repair.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -35,6 +43,17 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TechnicianService technicianService;
+
+    @Autowired
+    ProfessionService professionService;
+
+    @Autowired
+    RepairService repairService;
+
+    @Autowired
+    MaintenanceService maintenanceService;
     /**
      * 管理员登录
      * @param id
@@ -62,12 +81,36 @@ public class AdminController {
     }
 
     /**
-     * 跳转个人信息页面
+     * 跳转首页面
+     * @return
+     */
+    @RequestMapping(value = {"/index"},method = RequestMethod.GET)
+    public String adminIndex(){
+        return "admin/index";
+    }
+
+    /**
+     * 跳转管理员个人信息页面
      * @return
      */
     @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
     public String infoPage(Model model){
         return "admin/adminInfo";
+    }
+
+    /**
+     * 管理员更新
+     * @param admin
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public ResultDTO updateAdmin(Admin admin,HttpServletRequest request) {
+        Admin adminSession = (Admin) request.getSession().getAttribute("admin");
+        admin.setId(adminSession.getId());
+
+        adminService.updateById(admin);
+        return ResultDTO.ok();
     }
 
     /**
@@ -90,6 +133,281 @@ public class AdminController {
     @RequestMapping(value = "/addUserPage",method = RequestMethod.GET)
     public String addUserPage() {
         return "admin/addUser";
+    }
+
+    /**
+     * 跳转分页查询维修人员页面
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/showTechniciansPage",method = RequestMethod.GET)
+    public String showTechniciansPage(Model model,@RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
+        Page<TechnicianVO> technicianPage = technicianService.findTechnicianPage(pageNum);
+        model.addAttribute("page",technicianPage);
+        logger.info("technicianByPage:{}",technicianPage.getRecords());
+        return "admin/showTechnicians";
+    }
+
+    /**
+     * 跳转添加维修人员页面
+     */
+    @RequestMapping(value = "/addTechnicianPage",method = RequestMethod.GET)
+    public String addBookPage(Model model) {
+        List<Profession> list = professionService.list(null);
+        model.addAttribute("professionList",list);
+        return "admin/addTechnician";
+    }
+
+    /**
+     * 跳转到工种页面，携带信息
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/addProfessionPage",method = RequestMethod.GET)
+    public String showAddProfessionPage(Model model, @RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
+        Page<Profession> professionPage = professionService.findProfessionPage(pageNum);
+        model.addAttribute("page",professionPage);
+        return "admin/addProfession";
+    }
+
+    /**
+     * 跳转未分配的报修记录页面，分页
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "showUnallocatedRepairsPage",method = RequestMethod.GET)
+    public String showUnallocatedRepair(Model model,@RequestParam(value = "pageNum",
+            required = false,defaultValue = "1") int pageNum) {
+        Page<Repair> UnallocatedRepairPage = repairService.findUnallocatedRepairPage(pageNum);
+
+        //所有维修工人
+        List<Profession> professionList = professionService.list(null);
+        List<Technician> technicianList = Lists.newArrayList();
+        for (Profession profession : professionList) {
+            QueryWrapper<Technician> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("profession_id",profession.getId());
+            List<Technician> technicians = technicianService.list(queryWrapper);
+            for (Technician technician : technicians) {
+                technician.setName(profession.getName()+"-"+technician.getName());
+            }
+            technicianList.addAll(technicians);
+        }
+
+        model.addAttribute("technicianList",technicianList);
+        model.addAttribute("page",UnallocatedRepairPage);
+        return "/admin/showUnallocatedRepairs";
+    }
+
+    /**
+     * 跳转所有报修记录页面，分页
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "showRepairsPage",method = RequestMethod.GET)
+    public String showRepairsPage(Model model,@RequestParam(value = "pageNum",
+            required = false,defaultValue = "1") int pageNum) {
+        Page<RepairVO> repairPage = repairService.findAllRepairs(pageNum);
+        model.addAttribute("page",repairPage);
+        return "admin/showAllRepairs";
+    }
+
+    /**
+     * 跳转完成维修页面
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "showCompleteMaintenancePage",method = RequestMethod.GET)
+    public String showCompleteMaintenancePage(Model model, @RequestParam(value = "pageNum",
+            required = false,defaultValue = "1") int pageNum) {
+        logger.info("pageNum:{}",pageNum);
+        Page<MaintenanceVO> completeMaintenance = maintenanceService.findCompleteMaintenance(pageNum);
+        model.addAttribute("page",completeMaintenance);
+        return "admin/showCompleteMaintenance";
+    }
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/deleteUser",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO deleteUser(String userId){
+        //删除没有被外键关联的
+        QueryWrapper<Repair> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        int count = repairService.count(queryWrapper);
+        if (count == 0){
+            boolean removeResult = userService.removeById(userId);
+            if (removeResult){
+                return ResultDTO.ok();
+            }
+        }
+        return ResultDTO.error().message("该用户有保修记录不能直接删除");
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO addUser(User user){
+        User userServiceById = userService.getById(user.getId());
+        if (userServiceById != null){
+            return ResultDTO.error().message("用户已经存在");
+        }
+
+        boolean save = userService.save(user);
+        if (save){
+            return ResultDTO.ok().data("url","/admin/showUsersPage");
+        }
+        return ResultDTO.error().message("添加用户失败");
+    }
+
+    /**
+     * 删除维修人员
+     * technicianId
+     * @param technicianId
+     * @return
+     */
+    @RequestMapping(value = "/deleteTechnician",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO deleteTechnician(String technicianId){
+        //删除没有被外键关联的
+        QueryWrapper<Maintenance> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("technician_id",technicianId);
+        int count = maintenanceService.count(queryWrapper);
+        if (count == 0){
+            boolean removeResult = technicianService.removeById(technicianId);
+            if (removeResult){
+                return ResultDTO.ok();
+            }
+        }
+
+        return ResultDTO.error().message("该维修人员有维修记录不能直接删除");
+    }
+
+    /**
+     * 添加维修人员
+     * @param technician
+     * @return
+     */
+    @RequestMapping(value = "/addTechnician",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO addTechnician(Technician technician){
+        Technician technicianServiceById = technicianService.getById(technician.getId());
+        if (technicianServiceById != null){
+            return ResultDTO.error().message("维修人员已经存在");
+        }
+
+        boolean save = technicianService.save(technician);
+        if (save){
+            return ResultDTO.ok().data("url","/admin/showTechniciansPage");
+        }
+        return ResultDTO.error().message("添加维修人员失败");
+    }
+
+    /**
+     * 分配维修人员
+     * @param repairId
+     * @param technicianId
+     * @return
+     */
+    @Transactional
+    @RequestMapping(value = "allocated",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO allocated(int repairId, String technicianId) {
+        Repair repair = repairService.getById(repairId);
+        repair.setStatus(RepairStatusEnum.ALLOCATED.getStatusId());
+
+        QueryWrapper<Repair> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",repairId);
+        boolean updateResult = repairService.update(repair, queryWrapper);
+
+        Maintenance maintenance = new Maintenance();
+        maintenance.setRepairId(repairId);
+        maintenance.setTechnicianId(technicianId);
+        maintenance.setStartTime(new Date());
+
+        boolean saveResult = maintenanceService.save(maintenance);
+        if (updateResult && saveResult){
+            return ResultDTO.ok().data("url","/admin/showUnallocatedRepairsPage");
+        }else {
+            return ResultDTO.error().message("分配失败");
+        }
+    }
+
+    /**
+     * 添加工种
+     * @param professionName
+     * @return
+     */
+    @RequestMapping(value = "/addProfession",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO addProfession(String professionName){
+        QueryWrapper<Profession> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name",professionName);
+        Profession profession = professionService.getOne(queryWrapper);
+        if (profession!=null){
+            return ResultDTO.error().message("此工种已经存在");
+        }
+
+        boolean saveResult = professionService.save(new Profession().setName(professionName));
+        if (saveResult) {
+            return ResultDTO.ok().data("url","/admin/addProfessionPage");
+        }
+        return ResultDTO.error().message("添加失败");
+    }
+
+    /**
+     * 删除工种，通过professionId
+     * @param professionId
+     * @return
+     */
+    @RequestMapping(value = "/deleteProfession",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO deleteProfession(int professionId) {
+        QueryWrapper<Technician> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("profession_id",professionId);
+        int count = technicianService.count(queryWrapper);
+
+        if (count == 0){
+            boolean removeResult = professionService.removeById(professionId);
+            if (removeResult) {
+                return ResultDTO.ok();
+            }
+        }
+        return ResultDTO.error().message("该工种与维修人员关联不能直接删除");
+    }
+
+    /**
+     * 删除未分配的报修记录
+     * @param repairId
+     * @return
+     */
+    @RequestMapping(value = "/deleteRepair",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO deleteRepair(int repairId) {
+        Repair repair = repairService.getById(repairId);
+
+        //只有未分配的可以删除
+        if (repair.getStatus() == RepairStatusEnum.UNALLOCATED.getStatusId()){
+            boolean removeResult = repairService.removeById(repairId);
+            if (removeResult){
+                return ResultDTO.ok();
+            }else {
+                return ResultDTO.error().message("删除失败");
+            }
+        }
+
+        return ResultDTO.error().message("不能删除已经分配或已经维修完成的报修记录");
     }
 }
 

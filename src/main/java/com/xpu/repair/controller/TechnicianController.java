@@ -79,81 +79,16 @@ public class TechnicianController {
     }
 
     /**
-     * 分页查询维修人员
-     * @param model
-     * @param pageNum
+     * 跳转首页面
      * @return
      */
-    @RequestMapping(value = "/showTechniciansPage",method = RequestMethod.GET)
-    public String showTechniciansPage(Model model,@RequestParam(value = "pageNum",required = false,defaultValue = "1") int pageNum){
-        Page<TechnicianVO> technicianPage = technicianService.findTechnicianPage(pageNum);
-        model.addAttribute("page",technicianPage);
-        logger.info("technicianByPage:{}",technicianPage.getRecords());
-        return "admin/showTechnicians";
+    @RequestMapping(value = {"/index"},method = RequestMethod.GET)
+    public String technicianIndex(){
+        return "technician/index";
     }
 
     /**
-     * 删除维修人员
-     * technicianId
-     * @param technicianId
-     * @return
-     */
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO delete(String technicianId){
-        boolean result = technicianService.removeById(technicianId);
-        if (result){
-            return ResultDTO.ok().data("url","/technician/showTechniciansPage");
-        }
-        return ResultDTO.error().message("删除失败");
-    }
-
-    /**
-     * 返回添加维修人员页面
-     */
-    @RequestMapping(value = "/addTechnicianPage",method = RequestMethod.GET)
-    public String addBookPage(Model model) {
-        List<Profession> list = professionService.list(null);
-        model.addAttribute("professionList",list);
-        return "admin/addTechnician";
-    }
-
-    /**
-     * 添加维修人员
-     * @param technician
-     * @return
-     */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO add(Technician technician){
-        Technician technicianServiceById = technicianService.getById(technician.getId());
-        if (technicianServiceById != null){
-            return ResultDTO.error().message("维修人员已经存在");
-        }
-
-        boolean save = technicianService.save(technician);
-        if (save){
-            return ResultDTO.ok();
-        }
-        return ResultDTO.error().message("添加维修人员失败");
-    }
-
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO update(Technician technician,HttpServletRequest request){
-        Technician technicianSession = (Technician) request.getSession().getAttribute("technician");
-        String technicianSessionId = technicianSession.getId();
-
-        boolean updateResult = technicianService.updateById(technician.setId(technicianSessionId));
-        if (updateResult) {
-            return ResultDTO.ok();
-        }else {
-            return ResultDTO.error();
-        }
-    }
-
-    /**
-     * 跳转个人信息页面
+     * 跳转维修人员个人信息页面
      * @param request
      * @param model
      * @return
@@ -170,6 +105,26 @@ public class TechnicianController {
         model.addAttribute("professionList",professionList);
 
         return "technician/technicianMessage";
+    }
+
+    /**
+     * 维修人员更新
+     * @param technician
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO update(Technician technician,HttpServletRequest request){
+        Technician technicianSession = (Technician) request.getSession().getAttribute("technician");
+        String technicianSessionId = technicianSession.getId();
+
+        boolean updateResult = technicianService.updateById(technician.setId(technicianSessionId));
+        if (updateResult) {
+            return ResultDTO.ok();
+        }else {
+            return ResultDTO.error();
+        }
     }
 
     /**跳转到未完成维修页面
@@ -206,11 +161,15 @@ public class TechnicianController {
         return "technician/completeMaintenance";
     }
 
+    /**
+     * 提交完成维修
+     * @param maintenanceId
+     * @param file
+     * @return
+     */
     @RequestMapping(value = "/completeMaintenance",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO completeMaintenance(int maintenanceId, MultipartFile file){
-        logger.info(maintenanceId+"");
-        logger.info(file.toString());
         //存储图片到OSS，获取指定url
         String uploadUrl = fileService.upload(file);
 

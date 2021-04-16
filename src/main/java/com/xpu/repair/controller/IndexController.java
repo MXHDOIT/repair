@@ -21,24 +21,13 @@ public class IndexController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * 跳转首页，登录
+     * @return
+     */
     @RequestMapping(value = {"/","/login"},method = RequestMethod.GET)
     public String login(){
         return "login";
-    }
-
-    @RequestMapping(value = {"user/index"},method = RequestMethod.GET)
-    public String userIndex(){
-        return "user/index";
-    }
-
-    @RequestMapping(value = {"admin/index"},method = RequestMethod.GET)
-    public String adminIndex(){
-        return "admin/index";
-    }
-
-    @RequestMapping(value = {"technician/index"},method = RequestMethod.GET)
-    public String technicianIndex(){
-        return "technician/index";
     }
 
     /**
@@ -50,20 +39,5 @@ public class IndexController {
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:login";
-    }
-
-    /**
-     * 测试文件上传
-     * @param file
-     * @return
-     */
-    @ApiOperation("文件上传")
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO upload(@RequestParam("file")MultipartFile file) {
-        String uploadUrl = fileService.upload(file);
-
-        //返回对象
-        return ResultDTO.ok().message("文件上传成功").data("url",uploadUrl);
     }
 }
