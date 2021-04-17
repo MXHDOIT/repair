@@ -23,8 +23,8 @@ public class FilterConfig {
     public FilterRegistrationBean registrationBeanAdmin() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new AdminFilter());
-        registrationBean.addUrlPatterns("/technician/*");
-        registrationBean.addInitParameter("exclusions","/technician/login");
+        registrationBean.addUrlPatterns("/admin/*");
+        registrationBean.addInitParameter("exclusions","/admin/login");
         return registrationBean;
     }
 

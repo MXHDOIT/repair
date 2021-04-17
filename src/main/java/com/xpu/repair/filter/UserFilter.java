@@ -35,11 +35,12 @@ public class UserFilter implements Filter {
         for (String uri : excludedUris) {
             if (request.getRequestURI().equals(uri)){
                 chain.doFilter(request,response);
+                return;
             }
         }
 
         //session验证
-        if (request.getSession().getAttribute("user") != null){
+        if (request.getSession(false) != null && request.getSession(false).getAttribute("user") != null){
             chain.doFilter(request,response);
         }else{
             response.sendRedirect("/");
