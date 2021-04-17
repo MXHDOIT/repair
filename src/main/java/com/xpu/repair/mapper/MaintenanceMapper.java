@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,5 +25,7 @@ public interface MaintenanceMapper extends BaseMapper<Maintenance> {
 
     List<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
 
-    List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
+    List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId, Date startTime, Date endTime);
+
+    List<MaintenanceVO> listCompleteMaintenance(String technicianId, Date startTime, Date endTime);
 }

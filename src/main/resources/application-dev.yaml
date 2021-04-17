@@ -7,6 +7,14 @@ spring:
     password: root
   main:
     allow-bean-definition-overriding: true
+#  接口日期格式
+  mvc:
+    format:
+      date: yyyy-MM-dd
+#  返回日期格式
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
 #  mail:
 #    host: smtp.163.com
 #    username: maxinhangdoit@163.com

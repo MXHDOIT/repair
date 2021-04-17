@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
     @Autowired
     MaintenanceMapper maintenanceMapper;
 
-    private static final int SIZE = 10;
+    private static final int SIZE = 1;
 
     @Override
     public Page<MaintenanceVO> findCompleteMaintenance(int pageNum) {
@@ -49,11 +50,17 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
     }
 
     @Override
-    public Page<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, int pageNum) {
+    public Page<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, int pageNum, Date startTime,Date endTime) {
         Page<MaintenanceVO> page = new Page<>(pageNum,SIZE);
-        List<MaintenanceVO> unCompleteMaintenanceVO = maintenanceMapper.listCompleteMaintenanceByTechnicianId(page,technicianId);
+        List<MaintenanceVO> unCompleteMaintenanceVO = maintenanceMapper.listCompleteMaintenanceByTechnicianId(page,technicianId,startTime,endTime);
         page.setRecords(unCompleteMaintenanceVO);
         logger.info("records {}",unCompleteMaintenanceVO);
         return page;
+    }
+
+    @Override
+    public List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, Date startTime, Date endTime) {
+        List<MaintenanceVO> completeMaintenanceVO = maintenanceMapper.listCompleteMaintenance(technicianId,startTime,endTime);
+        return completeMaintenanceVO;
     }
 }

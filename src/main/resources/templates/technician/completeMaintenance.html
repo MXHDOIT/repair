@@ -35,6 +35,32 @@
         <h2 style="text-align:center">完成的维修记录</h2>
         <hr class="layui-bg-blue">
 
+        <div style="text-align:center">
+            <form class="layui-form" action="/technician/completeMaintenancePage" method="POST">
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期范围</label>
+                        <div class="layui-input-inline">
+                            <input type="date" id="startTime" name="startTime" placeholder="起始日期" autocomplete="off" class="layui-input" th:value="${#dates.format(startTime,'yyyy-MM-dd')}">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline">
+                            <input type="date" id="endTime" name="endTime" placeholder="截止日期" autocomplete="off" class="layui-input" th:value="${#dates.format(endTime,'yyyy-MM-dd')}">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <button type="submit" class="layui-btn" id="search">查询</button>
+                            <button type="button" class="layui-btn" id="print">打印</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
         <table class="layui-table" lay-size="sm">
             <thead>
             <tr>
@@ -65,7 +91,7 @@
                 <td colspan="7">
                     <div style="margin: auto; width: 160px;">
 
-                        <a id="prePage" th:href="@{/technician/completeMaintenancePage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                        <a id="prePage" th:href="@{/technician/completeMaintenancePage(pageNum=${page.getCurrent()-1},startTime=${#dates.format(startTime,'yyyy-MM-dd')},endTime=${#dates.format(endTime,'yyyy-MM-dd')})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -74,7 +100,7 @@
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
 
-                        <a id="nextPage" th:href="@{/technician/completeMaintenancePage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()<page.getPages()}">
+                        <a id="nextPage" th:href="@{/technician/completeMaintenancePage(pageNum=${page.getCurrent()+1},startTime=${#dates.format(startTime,'yyyy-MM-dd')},endTime=${#dates.format(endTime,'yyyy-MM-dd')})}" th:if="${page.getCurrent()<page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -90,13 +116,9 @@
 
 </div>
 
-<script src="/static/js/jquery.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
-<script>
-    layui.use('element', function () {
-        let element = layui.element;
-    });
-</script>
+<script src="/js/technician/completeMaintenance.js"></script>
 
 </body>
 </html>
