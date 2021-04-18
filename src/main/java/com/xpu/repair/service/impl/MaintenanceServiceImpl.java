@@ -30,7 +30,7 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
     @Autowired
     MaintenanceMapper maintenanceMapper;
 
-    private static final int SIZE = 1;
+    private static final int SIZE = 10;
 
     @Override
     public Page<MaintenanceVO> findCompleteMaintenance(int pageNum) {

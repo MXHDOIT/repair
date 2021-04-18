@@ -77,8 +77,14 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
-                <input class="layui-input layui-input-inline" type="text" id="userSex"
-                       lay-verify="required" name="userSex" placeholder="请输入性别">
+
+                <div class="layui-input-block">
+                    <select id="sexual" name="sexual" lay-verify="required">
+                        <option value=""></option>
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
+                </div>
             </div>
 
             <div class="layui-form-item">
@@ -90,7 +96,7 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
-                <input class="layui-input layui-input-inline" type="text" lay-verify="email"
+                <input class="layui-input layui-input-inline" type="email" lay-verify="email"
                        id="email" name="userEmail" placeholder="请输入邮箱">
             </div>
 

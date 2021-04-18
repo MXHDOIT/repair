@@ -15,7 +15,7 @@ function addUser() {
     let id = $("#userId").val();
     let name = $("#userName").val();
     let password = $("#password").val();
-    let sexual = $("#userSex").val()=="男"?0:1;
+    let sexual = $("#sexual").val();
     let phone = $("#userPhone").val();
     let email = $("#email").val();
     $.ajax({
