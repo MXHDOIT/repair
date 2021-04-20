@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -234,27 +235,67 @@ public class UserController {
     }
 
     /**
-     * 新增报修
+     * 新增或更新报修
      * @param detail
      * @param place
      * @param file
      * @return
      */
-    @RequestMapping(value = "/addRepair",method = RequestMethod.POST)
-    public String addRepair(String detail, String place, MultipartFile file,HttpServletRequest request) {
-        //上传图片到阿里云OSS返回访问url
-        String uploadUrl = fileService.upload(file);
-        //session中获取用户信息
-        User user = (User) request.getSession().getAttribute("user");
-        Repair repair = new Repair();
-        repair.setUserId(user.getId());
-        repair.setDetail(detail);
-        repair.setPlace(place);
-        repair.setPictureUrl(uploadUrl);
-        repair.setSubmitTime(new Date());
-        boolean saveResult = repairService.save(repair);
+    @RequestMapping(value = "/addOrUpdateRepair",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO addOrUpdateRepair(@RequestParam(value = "id",required = false) String id,@RequestParam(value = "detail") String detail,@RequestParam(value = "place") String place, MultipartFile file,HttpServletRequest request) throws IOException {
+        logger.info("id {}",id);
+        logger.info("detail:{}",detail);
+        logger.info("place: {}",place);
+        logger.info("file: {}",file.getSize());
 
-        return "redirect:/user/repairRecord";
+        if (detail.trim().length() == 0 || place.trim().length() == 0){  //修改前端判断
+            return ResultDTO.error().message("详情或地点不能为空");
+        }
+
+        String uploadUrl = null;
+        //上传图片到阿里云OSS返回访问url
+        if (0 != file.getSize()){
+            uploadUrl = fileService.upload(file);
+        }
+
+        if (id.trim().length() > 0){ //更新
+            Integer idInt = Integer.valueOf(id.trim());
+
+            Repair repair = repairService.getById(idInt);
+            repair.setPlace(place);
+            repair.setDetail(detail);
+            if (uploadUrl!=null){
+                repair.setPictureUrl(uploadUrl);
+            }
+            repairService.updateById(repair);  //update
+            return ResultDTO.ok().message("更新成功").data("url","/user/repairRecord");
+        }else{
+            //session中获取用户信息
+            User user = (User) request.getSession().getAttribute("user");
+            Repair repair = new Repair();
+            repair.setUserId(user.getId());
+            repair.setDetail(detail);
+            repair.setPlace(place);
+            repair.setPictureUrl(uploadUrl);
+            repair.setSubmitTime(new Date());
+             repairService.save(repair);  //add
+            return ResultDTO.ok().message("添加成功").data("url","/user/repairRecord");
+        }
+    }
+
+    /**
+     * 编辑报修，跳转到新增或更新页面
+     * @param repairId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/writeRepairPage",method = RequestMethod.GET)
+    public String writeRepairPage(@RequestParam(value = "repairId") int repairId,
+                                  Model model){
+        Repair repair = repairService.getById(repairId);
+        model.addAttribute("repair",repair);
+        return "user/addRepair";
     }
 }
 

@@ -56,6 +56,11 @@
                 <td>
                     <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${repair.getId()}">删除
                     </button>
+                    <a th:href="@{/user/writeRepairPage(repairId=${repair.getId()})}">
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑
+                        </button>
+                    </a>
+
                 </td>
             </tr>
 

@@ -22,7 +22,6 @@ $(function () {
         });
 
     });
-
 });
 
 //ajax删除用户
@@ -50,3 +49,4 @@ function deleteRepairById(repairId) {
         }
     });
 }
+
