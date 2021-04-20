@@ -44,7 +44,8 @@
                 <th>报修地点</th>
                 <th>提交时间</th>
                 <th>状态</th>
-                <th>操作</th>
+                <th>现场照片</th>
+                <th>操作(只能编辑未分配的报修记录)</th>
             </tr>
             </thead>
             <tr th:each="repair:${page.getRecords()}">
@@ -53,10 +54,13 @@
                 <td><label th:text="${repair.getPlace()}"></label></td>
                 <td><label th:text="${repair.getSubmitTime()}"></label></td>
                 <td><label th:text="${repair.getStatusName()}" th:value="${repair.getStatus()}"></label></td>
+                <td><label>
+                    <img th:src="${repair.getPictureUrl()}">
+                </label></td>
                 <td>
                     <button class="layui-btn layui-btn-sm layui-btn-danger del_btn" th:value="${repair.getId()}">删除
                     </button>
-                    <a th:href="@{/user/writeRepairPage(repairId=${repair.getId()})}">
+                    <a th:href="@{/user/updateRepairPage(repairId=${repair.getId()})}">
                         <button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑
                         </button>
                     </a>
@@ -65,7 +69,7 @@
             </tr>
 
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div style="margin: auto; width: 160px;">
 
                         <a id="prePage" th:href="@{/user/repairRecord(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">

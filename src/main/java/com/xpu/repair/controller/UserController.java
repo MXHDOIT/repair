@@ -152,7 +152,7 @@ public class UserController {
      */
     @RequestMapping(value = "/addRepairPage",method = RequestMethod.GET)
     public String showAddRepairPage(){
-        return "user/addRepair";
+        return "user/addOrUpdateRepair";
     }
 
     /**
@@ -265,6 +265,7 @@ public class UserController {
             Repair repair = repairService.getById(idInt);
             repair.setPlace(place);
             repair.setDetail(detail);
+            repair.setSubmitTime(new Date());
             if (uploadUrl!=null){
                 repair.setPictureUrl(uploadUrl);
             }
@@ -290,12 +291,17 @@ public class UserController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/writeRepairPage",method = RequestMethod.GET)
-    public String writeRepairPage(@RequestParam(value = "repairId") int repairId,
+    @RequestMapping(value = "/updateRepairPage",method = RequestMethod.GET)
+    public String updateRepairPage(@RequestParam(value = "repairId") int repairId,
                                   Model model){
         Repair repair = repairService.getById(repairId);
-        model.addAttribute("repair",repair);
-        return "user/addRepair";
+        if (repair.getStatus() == RepairStatusEnum.UNALLOCATED.getStatusId()){
+            model.addAttribute("repair",repair);
+            return "user/addOrUpdateRepair";
+        }else {
+            return "redirect:/user/repairRecord";
+        }
+
     }
 }
 
