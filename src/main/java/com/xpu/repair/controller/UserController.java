@@ -8,15 +8,14 @@ import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.*;
 import com.xpu.repair.service.*;
 import com.xpu.repair.pojo.vo.RepairVO;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,6 +74,7 @@ public class UserController {
         if (id != null && password != null){  //账号密码不为空
             User user = userService.getById(id);
 
+            password = DigestUtils.md5DigestAsHex(password.getBytes()); //Md5
             if (user != null && password.equals(user.getPassword())){ //用户存在，并且密码正确
                 request.getSession().setAttribute("user",user);
                 return ResultDTO.ok().data("url","user/index");
@@ -98,7 +98,7 @@ public class UserController {
      */
     @RequestMapping(value = "/infoPage",method = RequestMethod.GET)
     public String messagePage(){
-        return "user/userMessage";
+        return "user/userInfo";
     }
 
     /**
@@ -113,8 +113,16 @@ public class UserController {
         User userSession = (User) request.getSession().getAttribute("user");
         user.setId(userSession.getId());
 
+        //密码修改时
+        if (userSession.getPassword().equals(user.getPassword())){
+            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        }
         boolean updateResult = userService.updateById(user);
-        return ResultDTO.ok();
+        if (updateResult) {
+            return ResultDTO.ok();
+        } else {
+            return ResultDTO.error();
+        }
     }
 
     /**
@@ -134,7 +142,7 @@ public class UserController {
 
         model.addAttribute("page",repairByUserId);
 
-        return "/user/repairRecord";
+        return "user/showRepairRecord";
     }
 
     /**
@@ -157,7 +165,7 @@ public class UserController {
         Page<RepairVO> reminders = repairService.findReminders(pageNum);
 
         model.addAttribute("page",reminders);
-        return "user/reminders";
+        return "user/showReminders";
     }
 
     /**

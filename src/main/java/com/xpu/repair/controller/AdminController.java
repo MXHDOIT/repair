@@ -5,22 +5,27 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.xpu.repair.enums.RepairStatusEnum;
+import com.xpu.repair.pojo.ExcelData;
 import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.*;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
 import com.xpu.repair.pojo.vo.RepairVO;
 import com.xpu.repair.pojo.vo.TechnicianVO;
 import com.xpu.repair.service.*;
+import com.xpu.repair.util.ExcelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +59,9 @@ public class AdminController {
 
     @Autowired
     MaintenanceService maintenanceService;
+
+    @Autowired
+    UrgentrepairService urgentrepairService;
     /**
      * 管理员登录
      * @param id
@@ -72,6 +80,7 @@ public class AdminController {
         if (id != null && password != null){  //账号密码不为空
             Admin admin = adminService.getById(id);
 
+            password = DigestUtils.md5DigestAsHex(password.getBytes()); //Md5处理
             if (admin != null && password.equals(admin.getPassword())){ //用户存在，并且密码正确
                 request.getSession().setAttribute("admin",admin);
                 return ResultDTO.ok().data("url","admin/index");
@@ -108,6 +117,11 @@ public class AdminController {
     public ResultDTO updateAdmin(Admin admin,HttpServletRequest request) {
         Admin adminSession = (Admin) request.getSession().getAttribute("admin");
         admin.setId(adminSession.getId());
+
+        //防止密码没有改变
+        if (!adminSession.getPassword().equals(admin.getPassword())){
+            admin.setPassword(DigestUtils.md5DigestAsHex(admin.getPassword().getBytes()));
+        }
 
         adminService.updateById(admin);
         return ResultDTO.ok();
@@ -221,12 +235,30 @@ public class AdminController {
      * @param pageNum
      * @return
      */
-    @RequestMapping(value = "showCompleteMaintenancePage",method = RequestMethod.GET)
-    public String showCompleteMaintenancePage(Model model, @RequestParam(value = "pageNum",
-            required = false,defaultValue = "1") int pageNum) {
+    @RequestMapping(value = "showCompleteMaintenancePage")
+    public String showCompleteMaintenancePage(Model model,
+                                              @RequestParam(value = "pageNum", required = false,defaultValue = "1") int pageNum,
+                                              @RequestParam(value = "startTime", required = false) Date startTime,
+                                              @RequestParam(value = "endTime", required = false) Date endTime,
+                                              @RequestParam(value = "technicianId",required = false) String technicianId) {
         logger.info("pageNum:{}",pageNum);
-        Page<MaintenanceVO> completeMaintenance = maintenanceService.findCompleteMaintenance(pageNum);
+        logger.info("startTime:{}",startTime);
+        logger.info("endTime:{}",endTime);
+        logger.info("technicianId:{}",technicianId);
+
+        if (technicianId != null && technicianId.trim().length() == 0){
+            technicianId = null;
+        }
+        logger.info("technicianId:{}",technicianId);
+
+        Page<MaintenanceVO> completeMaintenance = maintenanceService.listCompleteMaintenanceByTechnicianId(technicianId,pageNum,startTime,endTime);
+        List<Technician> technicianList = technicianService.list(null);
         model.addAttribute("page",completeMaintenance);
+        model.addAttribute("technicianList",technicianList);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        model.addAttribute("technicianId",technicianId);
+
         return "admin/showCompleteMaintenance";
     }
 
@@ -264,6 +296,9 @@ public class AdminController {
             return ResultDTO.error().message("用户已经存在");
         }
 
+        //md5加密处理
+        String passwordMd5 = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+        user.setPassword(passwordMd5);
         boolean save = userService.save(user);
         if (save){
             return ResultDTO.ok().data("url","/admin/showUsersPage");
@@ -307,6 +342,9 @@ public class AdminController {
             return ResultDTO.error().message("维修人员已经存在");
         }
 
+        //md5加密处理
+        String passwordMd5 = DigestUtils.md5DigestAsHex(technician.getPassword().getBytes());
+        technician.setPassword(passwordMd5);
         boolean save = technicianService.save(technician);
         if (save){
             return ResultDTO.ok().data("url","/admin/showTechniciansPage");
@@ -399,15 +437,62 @@ public class AdminController {
 
         //只有未分配的可以删除
         if (repair.getStatus() == RepairStatusEnum.UNALLOCATED.getStatusId()){
-            boolean removeResult = repairService.removeById(repairId);
-            if (removeResult){
+            QueryWrapper<Urgentrepair> queryWrapper = new QueryWrapper<>(); //催单
+            queryWrapper.eq("repair_id",repairId);
+            int count = urgentrepairService.count(queryWrapper);
+
+            if (count == 0){
+                repairService.removeById(repairId);
                 return ResultDTO.ok();
             }else {
-                return ResultDTO.error().message("删除失败");
+                return ResultDTO.error().message("不能删除,该用户对此订单已经进行催单,请尽快进行安排维修人员维修");
             }
         }
 
-        return ResultDTO.error().message("不能删除已经分配或已经维修完成的报修记录");
+        return ResultDTO.error().message("不能删除,已经分配或已经维修完成的报修记录");
     }
+
+    @RequestMapping(value = "/printCompleteMaintenance")
+    public void printCompleteMaintenance(@RequestParam(value = "startTime", required = false) Date startTime,
+                                         @RequestParam(value = "endTime", required = false) Date endTime,
+                                         @RequestParam(value = "technicianId",required = false) String technicianId,
+                                         HttpServletResponse response) throws Exception {
+        if (technicianId != null && technicianId.trim().length() == 0){
+            technicianId = null;
+        }
+
+        List<MaintenanceVO> maintenanceVOs = maintenanceService.listCompleteMaintenanceByTechnicianId(technicianId, startTime, endTime);
+
+        //Excel实体类
+        ExcelData excelData = new ExcelData();
+        //设置sheet名称
+        excelData.setName("维修记录");
+        //设置表头字段
+        List<String> titles = new ArrayList<String>();
+        titles.add("报修记录Id");
+        titles.add("报修地点");
+        titles.add("详情信息");
+        titles.add("维修人员");
+        titles.add("分配时间");
+        titles.add("完工时间");
+        excelData.setTitles(titles);
+        //加入数据
+        List<List<Object>> rows = new ArrayList<List<Object>>();
+        for (MaintenanceVO maintenanceVO : maintenanceVOs) {
+            List<Object> row = new ArrayList<>();
+            row.add(maintenanceVO.getRepair().getId());
+            row.add(maintenanceVO.getRepair().getPlace());
+            row.add(maintenanceVO.getRepair().getDetail());
+            row.add(maintenanceVO.getTechnician().getName());
+            row.add(maintenanceVO.getStartTime());
+            row.add(maintenanceVO.getEndTime());
+            rows.add(row);
+        }
+        //设置要输出的记录
+        excelData.setRows(rows);
+
+        ExcelUtil.exportExcel(response,"维修记录.xlsx",excelData);
+    }
+
 }
 

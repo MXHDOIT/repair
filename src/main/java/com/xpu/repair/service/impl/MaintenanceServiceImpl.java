@@ -32,13 +32,13 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
 
     private static final int SIZE = 10;
 
-    @Override
-    public Page<MaintenanceVO> findCompleteMaintenance(int pageNum) {
-        Page<MaintenanceVO> page = new Page<>(pageNum,SIZE);
-        List<MaintenanceVO> successMaintenanceVO = maintenanceMapper.findSuccessMaintenanceVO(page);
-        page.setRecords(successMaintenanceVO);
-        return page;
-    }
+//    @Override
+//    public Page<MaintenanceVO> findCompleteMaintenance(int pageNum) {
+//        Page<MaintenanceVO> page = new Page<>(pageNum,SIZE);
+//        List<MaintenanceVO> successMaintenanceVO = maintenanceMapper.findSuccessMaintenanceVO(page);
+//        page.setRecords(successMaintenanceVO);
+//        return page;
+//    }
 
     @Override
     public Page<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(String technicianId, int pageNum) {

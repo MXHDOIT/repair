@@ -31,10 +31,10 @@
         <include refid="maintenanceVO_select"></include>
     </select>
 
-    <select id="findSuccessMaintenanceVO" resultMap="maintenanceVoMap">
-        <include refid="maintenanceVO_select"></include>
-        where m.end_time is not null
-    </select>
+<!--    <select id="findSuccessMaintenanceVO" resultMap="maintenanceVoMap">-->
+<!--        <include refid="maintenanceVO_select"></include>-->
+<!--        where m.end_time is not null-->
+<!--    </select>-->
 
     <select id="listUnCompleteMaintenanceByTechnicianId" resultMap="maintenanceVoMap">
         <include refid="maintenanceVO_select"></include>
@@ -43,7 +43,10 @@
 
     <select id="listCompleteMaintenanceByTechnicianId" resultMap="maintenanceVoMap">
         <include refid="maintenanceVO_select"></include>
-        where t.id = #{technicianId} and m.end_time is not null
+        where m.end_time is not null
+        <if test="technicianId != null">
+            and t.id = #{technicianId}
+        </if>
         <if test="startTime != null and endTime != null">
             and m.end_time between #{startTime} and #{endTime}
         </if>
@@ -51,7 +54,10 @@
 
     <select id="listCompleteMaintenance" resultMap="maintenanceVoMap">
         <include refid="maintenanceVO_select"></include>
-        where t.id = #{technicianId} and m.end_time is not null
+        where m.end_time is not null
+        <if test="technicianId != null">
+            and t.id = #{technicianId}
+        </if>
         <if test="startTime != null and endTime != null">
             and m.end_time between #{startTime} and #{endTime}
         </if>

@@ -1,7 +1,6 @@
 package com.xpu.repair.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.pojo.ExcelData;
 import com.xpu.repair.pojo.dto.ResultDTO;
@@ -19,12 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,6 +77,7 @@ public class TechnicianController {
         if (id != null && password != null) {  //账号密码不为空
             Technician technician = technicianService.getById(id);
 
+            password = DigestUtils.md5DigestAsHex(password.getBytes()); //md5
             if (technician != null && password.equals(technician.getPassword())) { //用户存在，并且密码正确
                 request.getSession().setAttribute("technician", technician);
                 return ResultDTO.ok().data("url", "technician/index");
@@ -116,7 +116,7 @@ public class TechnicianController {
         model.addAttribute("myProfession", myProfession);
         model.addAttribute("professionList", professionList);
 
-        return "technician/technicianMessage";
+        return "technician/technicianInfo";
     }
 
     /**
@@ -133,6 +133,10 @@ public class TechnicianController {
         Technician technicianSession = (Technician) request.getSession().getAttribute("technician");
         String technicianSessionId = technicianSession.getId();
 
+        //密码修改时处理
+        if (!technicianSession.getPassword().equals(technician.getPassword())){
+            technician.setPassword(DigestUtils.md5DigestAsHex(technician.getPassword().getBytes()));
+        }
         boolean updateResult = technicianService.updateById(technician.setId(technicianSessionId));
         if (updateResult) {
             return ResultDTO.ok();
@@ -149,7 +153,7 @@ public class TechnicianController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/unCompleteMaintenancePage", method = RequestMethod.GET)
+    @RequestMapping(value = "/showUnCompleteMaintenancePage", method = RequestMethod.GET)
     @ApiOperation(value = "跳转未完成维修的页面")
     public String showUnCompleteMaintenancePage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                 HttpServletRequest request, Model model) {
@@ -158,7 +162,7 @@ public class TechnicianController {
 
         Page<MaintenanceVO> maintenanceVOPage = maintenanceService.listUnCompleteMaintenanceByTechnicianId(technicianId, pageNum);
         model.addAttribute("page", maintenanceVOPage);
-        return "technician/unCompleteMaintenance";
+        return "technician/showUnCompleteMaintenance";
     }
 
     /**
@@ -169,7 +173,7 @@ public class TechnicianController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/completeMaintenancePage")
+    @RequestMapping(value = "/showCompleteMaintenancePage")
     @ApiOperation(value = "跳转完成维修页的面")
     public String showCompleteMaintenancePage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                                               @RequestParam(value = "startTime", required = false) Date startTime,
@@ -184,7 +188,7 @@ public class TechnicianController {
         model.addAttribute("startTime", startTime);
         model.addAttribute("endTime", endTime);
 
-        return "technician/completeMaintenance";
+        return "technician/showCompleteMaintenance";
     }
 
     /**

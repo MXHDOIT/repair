@@ -52,6 +52,42 @@
         <h2 style="text-align:center">已完成的维修记录</h2>
         <hr class="layui-bg-blue">
 
+        <div style="text-align:center">
+            <form class="layui-form" action="/admin/showCompleteMaintenancePage" method="POST">
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期范围</label>
+                        <div class="layui-input-inline">
+                            <input type="date" id="startTime" name="startTime" placeholder="起始日期" autocomplete="off" class="layui-input" th:value="${#dates.format(startTime,'yyyy-MM-dd')}">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline">
+                            <input type="date" id="endTime" name="endTime" placeholder="截止日期" autocomplete="off" class="layui-input" th:value="${#dates.format(endTime,'yyyy-MM-dd')}">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">维修人员</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select name="technicianId" lay-verify="required" id="technicianId" th:value="${technicianId}">
+                                <option value=""></option>
+                                <option th:each="technician:${technicianList}"
+                                        th:value="${technician.getId()}" th:text="${technician.getName()}" th:selected="${technician.getId() eq technicianId}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <button type="submit" class="layui-btn" id="search">查询</button>
+                            <button type="button" class="layui-btn" id="print">打印</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <table class="layui-table" lay-size="sm">
             <thead>
             <tr>
@@ -85,7 +121,7 @@
                     <div style="margin: auto; width: 160px;">
 
                         <a id="prePage"
-                           th:href="@{/admin/showCompleteMaintenancePage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                           th:href="@{/admin/showCompleteMaintenancePage(pageNum=${page.getCurrent()-1},startTime=${#dates.format(startTime,'yyyy-MM-dd')},endTime=${#dates.format(endTime,'yyyy-MM-dd')},technicianId=${technicianId})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -93,7 +129,7 @@
                         <span>/</span>
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
-                        <a id="nextPage" th:href="@{/admin/showCompleteMaintenancePage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()!=page.getPages()}">
+                        <a id="nextPage" th:href="@{/admin/showCompleteMaintenancePage(pageNum=${page.getCurrent()+1},startTime=${#dates.format(startTime,'yyyy-MM-dd')},endTime=${#dates.format(endTime,'yyyy-MM-dd')},technicianId=${technicianId})}" th:if="${page.getCurrent() < page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -116,6 +152,12 @@
         let element = layui.element;
         let layer = layui.layer;
     });
+
+    //点击完成维修按钮后
+    $("#print").on('click',function () {
+        window.open("/admin/printCompleteMaintenance?startTime="+$("#startTime").val()+"&endTime="+$("#endTime").val()+"&technicianId="+$("#technicianId").val());
+    });
+
 </script>
 
 </body>

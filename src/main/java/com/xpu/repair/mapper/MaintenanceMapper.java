@@ -21,7 +21,7 @@ import java.util.List;
 public interface MaintenanceMapper extends BaseMapper<Maintenance> {
     List<MaintenanceVO> findAllMaintenanceVO(Page page);
 
-    List<MaintenanceVO> findSuccessMaintenanceVO(Page page);
+//    List<MaintenanceVO> findSuccessMaintenanceVO(Page page);
 
     List<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId);
 

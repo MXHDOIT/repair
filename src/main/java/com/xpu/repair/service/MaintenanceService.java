@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2021-03-29
  */
 public interface MaintenanceService extends IService<Maintenance> {
-    Page<MaintenanceVO> findCompleteMaintenance(int pageNum);
+//    Page<MaintenanceVO> findCompleteMaintenance(int pageNum);
 
     Page<MaintenanceVO> listUnCompleteMaintenanceByTechnicianId(String technicianId, int pageNum);
 
