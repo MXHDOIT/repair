@@ -11,8 +11,10 @@ import com.xpu.repair.pojo.entity.*;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
 import com.xpu.repair.pojo.vo.RepairVO;
 import com.xpu.repair.pojo.vo.TechnicianVO;
+import com.xpu.repair.pojo.vo.UrgentrepairVo;
 import com.xpu.repair.service.*;
 import com.xpu.repair.util.ExcelUtil;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -226,7 +227,7 @@ public class AdminController {
             required = false,defaultValue = "1") int pageNum) {
         Page<RepairVO> repairPage = repairService.findAllRepairs(pageNum);
         model.addAttribute("page",repairPage);
-        return "admin/showAllRepairs";
+        return "admin/showRepairs";
     }
 
     /**
@@ -259,7 +260,7 @@ public class AdminController {
         model.addAttribute("endTime", endTime);
         model.addAttribute("technicianId",technicianId);
 
-        return "admin/showCompleteMaintenance";
+        return "admin/showCompleteMaintenances";
     }
 
     /**
@@ -494,5 +495,13 @@ public class AdminController {
         ExcelUtil.exportExcel(response,"维修记录.xlsx",excelData);
     }
 
+    @RequestMapping(value = "/showReminderPage",method = RequestMethod.GET)
+    @ApiOperation(value = "跳转催单记录页面")
+    public String showReminderPage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                   HttpServletRequest request,Model model) {
+        Page<UrgentrepairVo> page =  urgentrepairService.listVo(null,null,pageNum);
+        model.addAttribute("page",page);
+        return "admin/showReminders";
+    }
 }
 

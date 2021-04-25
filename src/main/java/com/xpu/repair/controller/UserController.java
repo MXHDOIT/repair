@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.*;
+import com.xpu.repair.pojo.vo.UrgentrepairVo;
 import com.xpu.repair.service.*;
 import com.xpu.repair.pojo.vo.RepairVO;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,7 +145,7 @@ public class UserController {
 
         model.addAttribute("page",repairByUserId);
 
-        return "user/showRepairRecord";
+        return "user/showRepairs";
     }
 
     /**
@@ -166,7 +168,7 @@ public class UserController {
         Page<RepairVO> reminders = repairService.findReminders(pageNum);
 
         model.addAttribute("page",reminders);
-        return "user/showReminders";
+        return "user/reminder";
     }
 
     /**
@@ -302,6 +304,17 @@ public class UserController {
             return "redirect:/user/repairRecord";
         }
 
+    }
+
+    @RequestMapping(value = "/showRemindersPage",method = RequestMethod.GET)
+    @ApiOperation(value = "跳转催单记录页面")
+    public String showReminderPage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                   HttpServletRequest request,Model model) {
+        User user = (User) request.getSession().getAttribute("user");
+        String userId = user.getId();
+        Page<UrgentrepairVo> page =  urgentrepairService.listVo(null,userId,pageNum);
+        model.addAttribute("page",page);
+        return "user/showReminders";
     }
 }
 

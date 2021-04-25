@@ -1,10 +1,14 @@
 package com.xpu;
 
 import com.aliyun.oss.OSSClient;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpu.repair.RepairApplication;
+import com.xpu.repair.enums.RepairStatusEnum;
 import com.xpu.repair.mapper.MaintenanceMapper;
 import com.xpu.repair.mapper.RepairMapper;
 import com.xpu.repair.mapper.TechnicianMapper;
+import com.xpu.repair.mapper.UrgentrepairMapper;
+import com.xpu.repair.pojo.vo.UrgentrepairVo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 @SpringBootTest(classes = RepairApplication.class)
 @RunWith(SpringRunner.class)
@@ -30,16 +36,17 @@ class RepairApplicationTests {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    UrgentrepairMapper urgentrepairMapper;
     @Test
     void contextLoads() {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        mailMessage.setFrom("maxinhangdoit@163.com");
-        mailMessage.setTo("new_fc@163.com");
-        mailMessage.setSubject("西邮研究生录取通知书");
-        mailMessage.setText("祝研究生之旅顺利！！！");
-
-        javaMailSender.send(mailMessage);
+        Page<UrgentrepairVo> page = new Page<>(1,1);
+        List<UrgentrepairVo> urgentrepairVoList = urgentrepairMapper.listVo(page,null,null);
+        for (UrgentrepairVo urgentrepairVo : urgentrepairVoList) {
+            urgentrepairVo.setStatus(RepairStatusEnum.getById(urgentrepairVo.getRepair().getStatus()).getStatusName());
+        }
+        page.setRecords(urgentrepairVoList);
+        System.out.println(page);
     }
 
     @Value("${aliyun.oss.file.endpoint}")

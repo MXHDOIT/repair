@@ -5,46 +5,47 @@
     <title>管理员-校园报修系统</title>
     <link href="/layui/css/layui.css" rel="stylesheet"/>
 
-</head>
+</head><div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree">
+
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;">用户管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/admin/showUsersPage">&emsp;&emsp;查询用户</a></dd>
+                    <dd><a href="/admin/addUserPage">&emsp;&emsp;新增用户</a></dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item ">
+                <a class="" href="javascript:;">维修人员管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/admin/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
+                    <dd><a href="/admin/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
+                    <dd><a href="/admin/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item ">
+                <a class="" href="javascript:;">报修记录</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/admin/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
+                    <dd><a href="/admin/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
+                    <dd class="layui-this"><a href="/admin/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
+                    <dd><a href="/admin/showReminderPage">&emsp;&emsp;催单记录</a></dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
+        </ul>
+    </div>
+</div>
 <div class="layui-layout layui-layout-admin">
 
     <div th:include="common/admin_header :: header"></div>
 
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree">
 
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/admin/showUsersPage">&emsp;&emsp;查询用户</a></dd>
-                        <dd><a href="/admin/addUserPage">&emsp;&emsp;新增用户</a></dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">维修人员管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/admin/showTechniciansPage">&emsp;&emsp;查询维修人员</a></dd>
-                        <dd><a href="/admin/addTechnicianPage">&emsp;&emsp;新增维修人员</a></dd>
-                        <dd><a href="/admin/addProfessionPage">&emsp;&emsp;新建工种</a> </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">报修记录</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/admin/showUnallocatedRepairsPage">&emsp;&emsp;未分配报修记录</a></dd>
-                        <dd><a href="/admin/showRepairsPage">&emsp;&emsp;所有报修记录</a></dd>
-                        <dd class="layui-this"><a href="/admin/showCompleteMaintenancePage">&emsp;&emsp;已完成的维修记录</a></dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item "><a href="/admin/infoPage">个人信息</a></li>
-            </ul>
-        </div>
-    </div>
 
     <div class="layui-body layui-container">
 

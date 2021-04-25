@@ -22,6 +22,7 @@
                     <dl class="layui-nav-child">
                         <dd class="layui-this"><a href="/user/repairRecord">&emsp;&emsp;报修记录</a></dd>
                         <dd><a href="/user/addRepairPage">&emsp;&emsp;报修</a></dd>
+                        <dd><a href="/user/showRemindersPage">&emsp;&emsp;催单记录</a></dd>
                         <dd><a href="/user/remindersPage">&emsp;&emsp;催单</a></dd>
                     </dl>
                 </li>
@@ -45,7 +46,7 @@
                 <th>提交时间</th>
                 <th>状态</th>
                 <th>现场照片</th>
-                <th>操作(只能编辑未分配的报修记录)</th>
+                <th>操作(只能编辑和删除未分配的报修记录)</th>
             </tr>
             </thead>
             <tr th:each="repair:${page.getRecords()}">

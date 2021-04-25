@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>维修人员-校园报修系统</title>
+    <title>普通用户-校园报修系统</title>
 
     <link href="/layui/css/layui.css" rel="stylesheet"/>
 
@@ -22,8 +22,8 @@
                     <dl class="layui-nav-child">
                         <dd><a href="/user/repairRecord">&emsp;&emsp;报修记录</a></dd>
                         <dd><a href="/user/addRepairPage">&emsp;&emsp;报修</a></dd>
-                        <dd class="layui-this"><a href="/user/showRemindersPage">&emsp;&emsp;催单记录</a></dd>
-                        <dd><a href="/user/remindersPage">&emsp;&emsp;催单</a></dd>
+                        <dd><a href="/user/showRemindersPage">&emsp;&emsp;催单记录</a></dd>
+                        <dd class="layui-this"><a href="/user/remindersPage">&emsp;&emsp;催单</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="/user/infoPage">个人信息</a></li>
@@ -34,32 +34,35 @@
     <div class="layui-body layui-container">
 
         <hr class="layui-bg-blue">
-        <h2 style="text-align:center">催 单 记 录</h2>
+        <h2 style="text-align:center">催 单</h2>
         <hr class="layui-bg-blue">
 
         <table class="layui-table" lay-size="sm">
             <thead>
             <tr>
-                <th>订单编号</th>
+                <th>状态</th>
                 <th>问题详情</th>
                 <th>报修地点</th>
-                <th>催单时间</th>
-                <th>状态</th>
+                <th>提交时间</th>
+                <th>操作</th>
             </tr>
             </thead>
-            <tr th:each="urgentrepair:${page.getRecords()}">
-                <td><label th:text="${urgentrepair.getRepair().getId()}"></label></td>
-                <td><label th:text="${urgentrepair.getRepair().getDetail()}"></label></td>
-                <td><label th:text="${urgentrepair.getRepair().getPlace()}"></label></td>
-                <td><label th:text="${urgentrepair.getCreateTime()}"></label></td>
-                <td><label th:text="${urgentrepair.getStatus()}"></label></td>
+            <tr th:each="repair:${page.getRecords()}">
+                <td><label th:text="${repair.getStatusName()}" th:value="${repair.getStatus()}"></label></td>
+                <td><label th:text="${repair.getDetail()}"></label></td>
+                <td><label th:text="${repair.getPlace()}"></label></td>
+                <td><label th:text="${repair.getSubmitTime()}"></label></td>
+                <td>
+                    <button class="layui-btn layui-btn-sm layui-btn-danger reminders_btn" th:value="${repair.getId()}">催单
+                    </button>
+                </td>
             </tr>
 
             <tr>
                 <td colspan="5">
                     <div style="margin: auto; width: 160px;">
 
-                        <a id="prePage" th:href="@{/user/showRemindersPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
+                        <a id="prePage" th:href="@{/user/remindersPage(pageNum=${page.getCurrent()-1})}" th:if="${page.getCurrent()!=1}">
                             <button class="layui-btn layui-btn-sm">上一页</button>
                         </a>
                         <label id="lab1" th:text="${page.getCurrent()}"></label>
@@ -68,7 +71,7 @@
 
                         <label id="lab2" th:text="${page.getPages()}"></label>
 
-                        <a id="nextPage" th:href="@{/user/showRemindersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()<page.getPages()}">
+                        <a id="nextPage" th:href="@{/user/remindersPage(pageNum=${page.getCurrent()+1})}" th:if="${page.getCurrent()< page.getPages()}">
                             <button class="layui-btn layui-btn-sm">下一页</button>
                         </a>
                     </div>
@@ -86,13 +89,7 @@
 
 <script src="/js/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
-<script>
-    layui.use(['form', 'element','layer'], function () {
-        let form = layui.form;
-        let element = layui.element;
-        let layer = layui.layer;
-    });
+<script src="/js/user/reminders.js"></script>
 
-</script>
 </body>
 </html>

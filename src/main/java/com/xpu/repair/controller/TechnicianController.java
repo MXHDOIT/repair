@@ -9,6 +9,7 @@ import com.xpu.repair.pojo.entity.Profession;
 import com.xpu.repair.pojo.entity.Repair;
 import com.xpu.repair.pojo.entity.Technician;
 import com.xpu.repair.pojo.vo.MaintenanceVO;
+import com.xpu.repair.pojo.vo.UrgentrepairVo;
 import com.xpu.repair.service.*;
 import com.xpu.repair.util.ExcelUtil;
 import io.swagger.annotations.Api;
@@ -56,6 +57,9 @@ public class TechnicianController {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    UrgentrepairService urgentrepairService;
 
     /**
      * 维修人员登录
@@ -162,7 +166,7 @@ public class TechnicianController {
 
         Page<MaintenanceVO> maintenanceVOPage = maintenanceService.listUnCompleteMaintenanceByTechnicianId(technicianId, pageNum);
         model.addAttribute("page", maintenanceVOPage);
-        return "technician/showUnCompleteMaintenance";
+        return "technician/showUnCompleteMaintenances";
     }
 
     /**
@@ -188,7 +192,19 @@ public class TechnicianController {
         model.addAttribute("startTime", startTime);
         model.addAttribute("endTime", endTime);
 
-        return "technician/showCompleteMaintenance";
+        return "technician/showCompleteMaintenances";
+    }
+
+    @RequestMapping(value = "/showReminderPage",method = RequestMethod.GET)
+    @ApiOperation(value = "跳转催单记录页面")
+    public String showReminderPage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                   HttpServletRequest request,Model model) {
+        Technician technician = (Technician) request.getSession().getAttribute("technician");
+
+        String technicianId = technician.getId();
+        Page<UrgentrepairVo> page =  urgentrepairService.listVo(technicianId,null,pageNum);
+        model.addAttribute("page",page);
+        return "technician/showReminders";
     }
 
     /**
