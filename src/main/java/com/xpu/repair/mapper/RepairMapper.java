@@ -25,4 +25,6 @@ public interface RepairMapper extends BaseMapper<Repair> {
     List<RepairVO> listReminderDetail(Page page);
 
     List<RepairVO> findAllRepairs(Page<RepairVO> page);
+
+    List<RepairVO> listRepairByUserIdAndStatus(String userId, int statusId);
 }

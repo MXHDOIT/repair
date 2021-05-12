@@ -19,18 +19,19 @@
         </association>
     </resultMap>
 
-    <select id="listRepairDetail" resultMap="repairVoMap">
+    <sql id="selectRepair">
         select
         r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,r.`status` as r_status,r.submit_time as r_submit_time,
         u.id as u_id,u.`name` as u_name,u.email as u_email,u.sexual as u_sexual,u.phone as u_phone,u.`password` as u_password
         from `repair` r join `user` u  on r.user_id = u.id
+    </sql>
+
+    <select id="listRepairDetail" resultMap="repairVoMap">
+        <include refid="selectRepair"></include>
     </select>
 
     <select id="listRepairDetailByRepair" parameterType="com.xpu.repair.pojo.entity.Repair" resultMap="repairVoMap">
-        select
-        r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,r.`status` as r_status,r.submit_time as r_submit_time,
-        u.id as u_id,u.`name` as u_name,u.email as u_email,u.sexual as u_sexual,u.phone as u_phone,u.`password` as u_password
-        from `repair` r join `user` u  on r.user_id = u.id
+        <include refid="selectRepair"></include>
         <where>
             <if test="repair.userId!= null">
                 and u.id = #{repair.userId}
@@ -42,16 +43,15 @@
     </select>
 
     <select id="listReminderDetail" resultMap="repairVoMap">
-        select
-        r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,r.`status` as r_status,r.submit_time as r_submit_time,
-        u.id as u_id,u.`name` as u_name,u.email as u_email,u.sexual as u_sexual,u.phone as u_phone,u.`password` as u_password
-        from `repair` r join `user` u  on r.user_id = u.id
+        <include refid="selectRepair"></include>
         where r.status != 2
     </select>
     <select id="findAllRepairs" resultMap="repairVoMap">
-        select
-        r.id as r_id,r.detail as r_detail,r.place as r_place,r.picture_url as r_picture_url,r.`status` as r_status,r.submit_time as r_submit_time,
-        u.id as u_id,u.`name` as u_name,u.email as u_email,u.sexual as u_sexual,u.phone as u_phone,u.`password` as u_password
-        from `repair` r join `user` u  on r.user_id = u.id
+        <include refid="selectRepair"></include>
+    </select>
+
+    <select id="listRepairByUserIdAndStatus" resultMap="repairVoMap">
+        <include refid="selectRepair"></include>
+        where u.id=#{userId} and r.status = #{statusId}
     </select>
 </mapper>

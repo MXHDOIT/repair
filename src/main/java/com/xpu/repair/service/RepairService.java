@@ -5,6 +5,9 @@ import com.xpu.repair.pojo.entity.Repair;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xpu.repair.pojo.vo.RepairVO;
 
+import java.util.List;
+
+
 /**
  * <p>
  * 报修单表 服务类
@@ -22,6 +25,14 @@ public interface RepairService extends IService<Repair> {
 
     Page<RepairVO> findRepairByUserId(int pageNum, String userId);
 
+    List<RepairVO> findRepairByUserId(String userId);
+
     Page<RepairVO> findReminders(int pageNum);
+
+    List<RepairVO> findCompleteRepairByUserId(String userId);
+
+    List<RepairVO> findUnCompleteRepairByUserId(String userId);
+
+    List<RepairVO> findRepairReminderByUserId(String userId);
 }
 

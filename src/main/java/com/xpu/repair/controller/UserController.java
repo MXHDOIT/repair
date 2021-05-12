@@ -245,7 +245,8 @@ public class UserController {
      */
     @RequestMapping(value = "/addOrUpdateRepair",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addOrUpdateRepair(@RequestParam(value = "id",required = false) String id,@RequestParam(value = "detail") String detail,@RequestParam(value = "place") String place, MultipartFile file,HttpServletRequest request) throws IOException {
+    public ResultDTO addOrUpdateRepair(@RequestParam(value = "id",required = false) String id,@RequestParam(value = "detail") String detail,@RequestParam(value = "place") String place,
+                                       MultipartFile file,HttpServletRequest request) throws IOException {
         logger.info("id {}",id);
         logger.info("detail:{}",detail);
         logger.info("place: {}",place);
