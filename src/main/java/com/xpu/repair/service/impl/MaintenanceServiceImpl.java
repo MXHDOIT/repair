@@ -63,4 +63,16 @@ public class MaintenanceServiceImpl extends ServiceImpl<MaintenanceMapper, Maint
         List<MaintenanceVO> completeMaintenanceVO = maintenanceMapper.listCompleteMaintenance(technicianId,startTime,endTime);
         return completeMaintenanceVO;
     }
+
+    @Override
+    public List<MaintenanceVO> listUnCompleteMaintenanceByUserId(String userId) {
+        List<MaintenanceVO> maintenanceVOS = maintenanceMapper.listUnCompleteMaintenanceByUserId(userId);
+        return maintenanceVOS;
+    }
+
+    @Override
+    public List<MaintenanceVO> listCompleteMaintenanceByUserId(String userId) {
+        List<MaintenanceVO> maintenanceVOS = maintenanceMapper.listCompleteMaintenanceByUserId(userId);
+        return maintenanceVOS;
+    }
 }

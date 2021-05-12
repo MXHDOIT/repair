@@ -28,4 +28,8 @@ public interface MaintenanceMapper extends BaseMapper<Maintenance> {
     List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(Page<MaintenanceVO> page, String technicianId, Date startTime, Date endTime);
 
     List<MaintenanceVO> listCompleteMaintenance(String technicianId, Date startTime, Date endTime);
+
+    List<MaintenanceVO> listUnCompleteMaintenanceByUserId(String userId);
+
+    List<MaintenanceVO> listCompleteMaintenanceByUserId(String userId);
 }

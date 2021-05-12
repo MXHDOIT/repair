@@ -3,6 +3,7 @@ package com.xpu.repair.controller;
 import com.xpu.repair.pojo.dto.ResultDTO;
 import com.xpu.repair.pojo.entity.Repair;
 import com.xpu.repair.pojo.entity.User;
+import com.xpu.repair.pojo.vo.MaintenanceVO;
 import com.xpu.repair.pojo.vo.RepairVO;
 import com.xpu.repair.service.FileService;
 import com.xpu.repair.service.MaintenanceService;
@@ -38,6 +39,13 @@ public class WeChatController {
     @Autowired
     FileService fileService;
 
+    /**
+     * 登录
+     * @param account
+     * @param password
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResultDTO login(String account, String password, HttpServletRequest request){
 
@@ -53,7 +61,11 @@ public class WeChatController {
         return ResultDTO.error().message("账号或密码错误,请重新登录");
     }
 
-    //个人全部报修单
+    /**
+     * 个人全部报修单
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/repair/all",method = RequestMethod.POST)
     public ResultDTO listRepairAll(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
@@ -65,7 +77,11 @@ public class WeChatController {
         return ResultDTO.ok().data("repairs",repairs);
     }
 
-    //个人未分配和未完成维修的报修单
+    /**
+     * 个人未分配和未完成维修的报修单
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/repair/reminder")
     public ResultDTO listRepairReminder(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
@@ -77,31 +93,43 @@ public class WeChatController {
         return ResultDTO.ok().data("repairs",repairs);
     }
 
-    //个人维修完成记录
+    /**
+     * 完成的维修记录
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/maintenance/success",method = RequestMethod.POST)
     public ResultDTO listMaintenanceSuccess(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
         String userId = user.getId();
 
-        //查询报修单通过user_id
-        List<RepairVO> repairs = repairService.findCompleteRepairByUserId(userId);
+        //查询维修单通过user_id
+        List<MaintenanceVO> maintenanceVOS = maintenanceService.listCompleteMaintenanceByUserId(userId);
 
-        return ResultDTO.ok().data("repairs",repairs);
+        return ResultDTO.ok().data("maintenance",maintenanceVOS);
     }
 
-    //维修中记录
+    /**
+     * 未完成的维修记录
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/maintenance/ing",method = RequestMethod.POST)
     public ResultDTO listMaintenanceIng(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
         String userId = user.getId();
 
-        //查询报修单通过user_id
-        List<RepairVO> repairs = repairService.findUnCompleteRepairByUserId(userId);
+        //查询维修单通过user_id
+        List<MaintenanceVO> maintenanceVOS = maintenanceService.listUnCompleteMaintenanceByUserId(userId);
 
-        return ResultDTO.ok().data("repairs",repairs);
+        return ResultDTO.ok().data("maintenance",maintenanceVOS);
     }
 
-    //照片上传
+    /**
+     * 照片上传
+     * @param file
+     * @return
+     */
     @RequestMapping(value = "/picture/upload")
     public ResultDTO getPictureUrl(MultipartFile file) {
         String uploadUrl = null;
@@ -113,6 +141,14 @@ public class WeChatController {
         return ResultDTO.ok().data("pictureUrl",uploadUrl);
     }
 
+    /**
+     * 新增报修记录
+     * @param imageUrl
+     * @param detail
+     * @param place
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/repair/add",method = RequestMethod.POST)
     public ResultDTO addRepair(@RequestParam(value = "imageUrl") String imageUrl, @RequestParam(value = "detail") String detail, @RequestParam(value = "place") String place,
                                HttpServletRequest request){

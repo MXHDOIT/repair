@@ -24,4 +24,8 @@ public interface MaintenanceService extends IService<Maintenance> {
     Page<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, int pageNum, Date startTime, Date endTime);
 
     List<MaintenanceVO> listCompleteMaintenanceByTechnicianId(String technicianId, Date startTime, Date endTime);
+
+    List<MaintenanceVO> listUnCompleteMaintenanceByUserId(String userId);
+
+    List<MaintenanceVO> listCompleteMaintenanceByUserId(String userId);
 }
