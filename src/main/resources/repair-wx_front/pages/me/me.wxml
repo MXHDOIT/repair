@@ -1,0 +1,21 @@
+<view  class="userinfo">
+  <image class="userinfo-avatar" src='{{image_url}}'></image>
+</view>
+<view class='cont'>
+        <button>编号：{{id}}</button>
+        <button>昵称：{{name}}</button>
+        <button>密码：{{password}}</button>
+        <view class='sex'>
+        <block wx:if='{{gender==0}}'>
+            <button>性别：男</button>
+            </block>
+            <block wx:elif='{{gender==1}}'>
+            <button>性别：女</button>
+            </block>
+            <block wx:else>
+            <button>性别：未知</button>
+            </block>
+            </view>
+         <button>邮箱：{{email}}</button>
+         <button>手机号：{{phone}}</button>
+</view>

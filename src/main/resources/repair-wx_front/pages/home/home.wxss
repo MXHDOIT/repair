@@ -1,0 +1,43 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  background-color: gray;
+  border-radius: 5%;
+  align-items: center;
+}
+.name{
+  margin-left: 50rpx
+}
+.sex{
+  margin-left: 50rpx
+}
+.signOut{
+  color: white
+}
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+   margin-left: 50rpx;
+  border-radius: 50%;
+}
+.vbs{
+   position: fixed;
+  text-align: center;
+  bottom: 30rpx;
+  left: 0;
+  right: 0;
+}
+input{
+  width: 70%;
+  border: 2rpx solid #bbc0be;
+  border-radius:15rpx; 
+  margin-left: 185rpx;
+   margin-top: -40rpx
+}
+button{
+  margin-top: 20rpx;
+  margin-bottom: 60rpx;
+  width: 80%;
+  height: auto
+}

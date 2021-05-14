@@ -1,0 +1,47 @@
+<block wx:if='{{name}}'>
+  <view class="userinfo">
+    <view class='name' style="white-space:pre-wrap">
+      姓名：{{name}}
+    </view>
+    <view class='sex'>
+      <block wx:if='{{gender==0}}'>
+        <view>性别：男</view>
+      </block>
+      <block wx:elif='{{gender==1}}'>
+        <view>性别：女</view>
+      </block>
+      <block wx:else>
+        <view>性别：未知</view>
+      </block>
+    </view>
+    <view class='signOut' style="white-space:pre-wrap" catchtap="signOut">
+      退出
+    </view>
+  </view>
+  <button bindtap='content'>详细资料</button>
+  <button bindtap='all'>我的报修记录</button>
+  <button bindtap='reminder'>催单</button>
+  <button bindtap='loading'>正在维修</button>
+  <button bindtap='task'>已完成的报修</button>
+  <button bindtap='tel'>小程序联系人：13186379659</button>
+</block>
+
+<block wx:else>
+    <view class="section">
+      账号：
+      <input class='account' name='account' type='text' placeholder-style='text-align:center;font-size: 13px' placeholder='请输入账号' 
+      bindblur="accountInput"/>
+    </view>
+    
+     <view class="section">
+      密码：
+      <input class='password' name='password' type='text' placeholder-style='text-align:center;font-size: 13px' placeholder='请输入密码'
+      bindblur="passwordInput"/>
+    </view>
+
+    <view class="section">
+      <button class="loginBtn" type="primary" catchtap="login">用户登录</button>
+    </view>
+</block>
+
+<view class='vbs'>由MXHDOIT提供技术支持</view>

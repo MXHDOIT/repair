@@ -1,0 +1,33 @@
+<view class="table">
+  <view class="tr bg-w">
+    <view class="th">编号</view>
+    <view class="th">详情</view>
+    <view class="th">地点</view>
+    <view class="th ">报修时间</view>
+    <view class="th ">状态</view>
+    <view class="th ">操作</view>
+  </view>
+  <block wx:for="{{array}}" wx:key="code">
+    <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+      <view class="td">{{item.id}}</view>
+      <view class="td">{{item.detail}}</view>
+      <view class="td">{{item.place}}</view>
+      <view class="td">{{item.submitTime}}</view>
+      <view class="td">{{item.statusName}}</view>
+      <view class="td">
+        <button data-text="{{item.id}}" bindtap="reminder">催单</button>
+      </view>
+    </view>
+    <view class="tr" wx:else>
+      <view class="td">{{item.id}}</view>
+      <view class="td">{{item.detail}}</view>
+      <view class="td">{{item.place}}</view>
+      <view class="td">{{item.submitTime}}</view>
+      <view class="td">{{item.statusName}}</view>
+      <view class="td">
+        <button data-text="{{item.id}}" bindtap="reminder">催单</button>
+      </view>
+    </view>
+  </block>
+</view>
+<view>{{nickName}}</view>
