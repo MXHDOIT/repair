@@ -213,7 +213,7 @@ public class AdminController {
 
         model.addAttribute("technicianList",technicianList);
         model.addAttribute("page",UnallocatedRepairPage);
-        return "/admin/showUnallocatedRepairs";
+        return "admin/showUnallocatedRepairs";
     }
 
     /**
