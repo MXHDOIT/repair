@@ -24,7 +24,7 @@ spring:
 #    test-connection: true
 # 服务端口
 server:
-  port: 8888
+  port: 9999
 #  servlet:
 #    context-path: /repair
 

@@ -1,173 +1,228 @@
-SET FOREIGN_KEY_CHECKS=0;
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 50723
+ Source Host           : localhost:3306
+ Source Schema         : repair
+
+ Target Server Type    : MySQL
+ Target Server Version : 50723
+ File Encoding         : 65001
+
+ Date: 14/05/2021 20:45:09
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
--- Table structure for `admin`
+-- Table structure for admin
 -- ----------------------------
 DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL COMMENT '编号ID',
-  `password` varchar(50) NOT NULL COMMENT '密码',
-  `username` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
+CREATE TABLE `admin`  (
+  `id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '管理员ID',
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('11232', '111111', 'admin');
-INSERT INTO `admin` VALUES ('11234', '222222', 'system');
-
+INSERT INTO `admin` VALUES ('11232', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
+INSERT INTO `admin` VALUES ('11234', 'e10adc3949ba59abbe56e057f20f883e', 'system');
 
 -- ----------------------------
--- Table structure for `user`
+-- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` char(30) NOT NULL COMMENT '用户ID',
-  `name` varchar(50) NOT NULL COMMENT '用户姓名',
-  `password` varchar(50) NOT NULL COMMENT '密码',
-  `sexual` int(11) DEFAULT '0' COMMENT '性别：0为男1为女，默认为男',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(50) DEFAULT NULL COMMENT '电话',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+CREATE TABLE `user`  (
+  `id` char(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `sexual` int(11) NULL DEFAULT 0 COMMENT '性别：0为男1为女，默认为男',
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1297034860', 'liangyibinx', '121212', '0', '1297034860', '123123123');
-INSERT INTO `user` VALUES ('12970348601', '梁毅滨', '4233', '0', '12970348601', '123123');
-INSERT INTO `user` VALUES ('15251104218', '谢土飞(15251104218)', '121212', '0', '', '');
-INSERT INTO `user` VALUES ('15251104224', '温小辉', '232323', '0', '15251104224', '112112112');
-
+INSERT INTO `user` VALUES ('12970348601', '梁毅滨', 'e10adc3949ba59abbe56e057f20f883e', 0, '1297034862', '123123');
+INSERT INTO `user` VALUES ('134566', '11232', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('1345665', '11232', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('15251104218', '谢土飞(15251104218)', 'e10adc3949ba59abbe56e057f20f883e', 0, '', '');
+INSERT INTO `user` VALUES ('15251104224', '温小辉', 'e10adc3949ba59abbe56e057f20f883e', 0, '15251104224', '15251104224');
+INSERT INTO `user` VALUES ('41709310110', '11232', 'e10adc3949ba59abbe56e057f20f883e', 1, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('41709310111', '11232', 'e10adc3949ba59abbe56e057f20f883e', 1, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('41709310115', '马新航', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('41709310116', 'maxinhang2', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13186379659');
+INSERT INTO `user` VALUES ('41709310118', '11232', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13186379659');
+INSERT INTO `user` VALUES ('41709310119', '11232', 'e10adc3949ba59abbe56e057f20f883e', 1, 'maxinhangdoit@163.com', '13619278232');
+INSERT INTO `user` VALUES ('41709310120', 'maxinhang', 'e10adc3949ba59abbe56e057f20f883e', 0, 'maxinhangdoit@163.com', '13619278232');
 
 -- ----------------------------
--- Table structure for `profession`
+-- Table structure for profession
 -- ----------------------------
 DROP TABLE IF EXISTS `profession`;
-CREATE TABLE `profession` (
+CREATE TABLE `profession`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
-  `name` varchar(50) DEFAULT NULL COMMENT '工种',
-  PRIMARY KEY (`id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职业表';
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工种',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '职业表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of profession
 -- ----------------------------
-INSERT INTO `profession` VALUES (1,'电工');
+INSERT INTO `profession` VALUES (1, '电工');
+INSERT INTO `profession` VALUES (4, '水工');
+
 
 -- ----------------------------
--- Table structure for `technician`
+-- Table structure for technician
 -- ----------------------------
 DROP TABLE IF EXISTS `technician`;
-CREATE TABLE `technician` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
-  `name` varchar(50) DEFAULT NULL COMMENT '姓名',
-  `number` varchar(20) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `profession_id` int(11) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_PROFESSIONID` FOREIGN KEY (`profession_id`) REFERENCES `profession` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='维修人员表';
+CREATE TABLE `technician`  (
+  `id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '维修人员ID',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `profession_id` int(11) NOT NULL COMMENT '职业id',
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮箱',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_PROFESSIONID`(`profession_id`) USING BTREE,
+  CONSTRAINT `FK_PROFESSIONID` FOREIGN KEY (`profession_id`) REFERENCES `profession` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '维修人员表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of technician
 -- ----------------------------
-INSERT INTO `technician` VALUES ('1', 'xiaofei', '001', '13423343647',1,'1297034860');
-INSERT INTO `technician` VALUES ('2', 'xiaohui', '002', '13447834475',1,'1297034860');
-INSERT INTO `technician` VALUES ('3', 'xiaobin', '003', '13480398447',1,'1297034860');
-INSERT INTO `technician` VALUES ('4', 'Ben', '004', '13420329897',1,'1297034860');
-INSERT INTO `technician` VALUES ('5', 'Mary', '005', '18424543647',1,'1297034860');
-INSERT INTO `technician` VALUES ('6', 'liang', '006', '15425844447',1,'1297034860');
+INSERT INTO `technician` VALUES ('007', 'liu', 'e10adc3949ba59abbe56e057f20f883e', '13158862491', 4, 'maxinhangdoit@163.com');
+INSERT INTO `technician` VALUES ('111', '马新航', 'e10adc3949ba59abbe56e057f20f883e', '13619278232', 1, 'maxinhangdoit@163.com');
+INSERT INTO `technician` VALUES ('2', 'xiaohui', 'e10adc3949ba59abbe56e057f20f883e', '13447834475', 1, '282777859@qq.com');
+INSERT INTO `technician` VALUES ('3', 'xiaobin', 'e10adc3949ba59abbe56e057f20f883e', '13480398447', 1, '282777859@qq.com');
+INSERT INTO `technician` VALUES ('4', 'Ben', 'e10adc3949ba59abbe56e057f20f883e', '13420329897', 1, '1297034860282777859@qq.com');
+INSERT INTO `technician` VALUES ('5', 'Mary', 'e10adc3949ba59abbe56e057f20f883e', '18424543647', 1, '282777859@qq.com');
 
 -- ----------------------------
--- Table structure for `repair`
+-- Table structure for repair
 -- ----------------------------
 DROP TABLE IF EXISTS `repair`;
-CREATE TABLE `repair` (
-  `id` int(30) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '报修单状态：0为被用户删除，1为未安排检修，2为已安排检修，3为待同意取消，\r\n  4为已同意取消，5为待验收，6为已验收，默认为被用户删除',
-  `detail` varchar(10240) NOT NULL COMMENT '问题详情',
-  `place` varchar(256) NOT NULL COMMENT '发生故障的物业的地点',
-  `picture_url` varchar(256) DEFAULT NULL COMMENT '现场照片',
-  `submit_time` datetime NOT NULL COMMENT '提交报修单的时间',
-  `user_id` char(30) NOT NULL COMMENT '提交该报修单的用户的编号',
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_USERID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='报修单表';
+CREATE TABLE `repair`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '报修单状态：0为被用户删除，1为未安排检修，2为已安排检修，3为待同意取消，\r\n  4为已同意取消，5为待验收，6为已验收，默认为被用户删除',
+  `detail` varchar(10240) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '问题详情',
+  `place` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发生故障的物业的地点',
+  `picture_url` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '现场照片',
+  `submit_time` datetime(0) NOT NULL COMMENT '提交报修单的时间',
+  `user_id` char(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '提交该报修单的用户的编号',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_USERID`(`user_id`) USING BTREE,
+  CONSTRAINT `FK_USERID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '报修单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of repair
 -- ----------------------------
-INSERT INTO `repair` VALUES ('19', '2', '天花板漏水', '25栋705', '84df5cf96a80016e074dda01e05bd2f5', '2018-09-26 15:12:54', '15251104224');
-INSERT INTO `repair` VALUES ('20', '7', ' 天花板漏水', '25栋705', 'd602f541df4030cc0cff0551530edfb7', '2018-09-26 15:14:36', '15251104224');
-INSERT INTO `repair` VALUES ('21', '0', ' 天花板漏水', '25栋705', 'b714dc5976a769000c35507e0c327e98', '2018-09-28 15:31:13', '15251104224');
-INSERT INTO `repair` VALUES ('22', '0', ' 天花板漏水', '25栋705', '4cf156f36b360471cd8d46fe3e2af082', '2018-09-29 22:45:24', '15251104224');
-INSERT INTO `repair` VALUES ('23', '0', '水龙头坏了', '28栋', 'fa233c6b363ed4622393bbe94488c465', '2018-09-29 22:45:58', '15251104224');
-INSERT INTO `repair` VALUES ('24', '0', ' 桌子坏了', '25栋', '41ba50aac9d596163cd09bf134154685', '2018-09-29 22:46:13', '15251104224');
-INSERT INTO `repair` VALUES ('25', '0', ' 凳子坏了', '25栋', 'a593fc4929e3c963f66179b7bccd5c1', '2018-09-29 22:46:23', '15251104224');
-INSERT INTO `repair` VALUES ('26', '0', ' 柜子坏了', '28栋', '7f4b1a4ed525f2af391968dd7a857f25', '2018-10-03 17:07:11', '15251104224');
-INSERT INTO `repair` VALUES ('27', '3', ' 天花板漏水', '25栋', '9bb4a8e61b1de71c64e95a66a276e400', '2018-10-03 17:25:42', '15251104218');
-INSERT INTO `repair` VALUES ('29', '0', ' 电脑坏了', '25栋', '2b97b261-121a-4d17-b031-646b4a288a7e.jpg', '2018-10-10 20:35:20', '15251104224');
-INSERT INTO `repair` VALUES ('30', '0', ' 电脑又坏了', '25栋', '77a52f67-9a15-4a26-9955-a426ed5fa27e.jpg', '2018-10-10 20:41:42', '15251104224');
-INSERT INTO `repair` VALUES ('31', '3', ' 电脑坏坏的', '25栋', '059f6275-7a64-4fe2-8f01-f4fcb3cb8d28.jpg', '2018-10-10 20:43:58', '15251104224');
-INSERT INTO `repair` VALUES ('32', '1', ' 电脑坏坏的', '25栋', '', '2018-10-10 20:49:38', '15251104224');
-INSERT INTO `repair` VALUES ('33', '0', ' 被子坏了', '25栋', '3eb570be-19e2-45c9-90f6-a583fdd6d48c.jpg', '2018-10-10 20:51:03', '15251104224');
-INSERT INTO `repair` VALUES ('34', '0', ' 被子又坏了', '25栋', 'd58fc6e7-4247-448d-baf0-87146e90b6c4.jpg', '2018-10-10 20:55:32', '15251104224');
-INSERT INTO `repair` VALUES ('35', '0', ' 管道漏水了', '25栋', '6a1721b5-5d31-4bb7-a2cd-c4d6dd90f52a.jpg', '2018-10-10 20:56:49', '15251104224');
-INSERT INTO `repair` VALUES ('36', '1', ' 地板爆裂', '25栋705', '7884e23b1d7465214e507aa908b6d432', '2018-10-10 23:18:05', '15251104224');
-INSERT INTO `repair` VALUES ('37', '0', ' 天花板爆炸', '25栋619', 'd2bfb14f2d089a9e652990e129e813b', '2018-10-11 10:49:29', '15251104224');
-INSERT INTO `repair` VALUES ('38', '3', ' 柜子坏了', '25栋', 'd056d37b-fe81-493d-a3d9-8833934b89cc.jpg', '2018-10-11 11:03:38', '15251104218');
-INSERT INTO `repair` VALUES ('41', '1', ' 灯管坏了', '25栋', '65f439ae2cae3985445933cd629f64cf', '2018-10-11 21:01:46', '15251104224');
-INSERT INTO `repair` VALUES ('42', '6', '花洒漏水很严重，都裂开了，需要换一个花洒', '', 'a8865f54d8ea6ee7a19b164f14d0eab8', '2018-10-11 21:03:50', '15251104224');
-INSERT INTO `repair` VALUES ('43', '1', ' 天花板漏水，有很多灰尘掉下来', '25栋705', '592a9cf91fbf4effe3ed4cd6699f6893', '2018-10-11 22:47:46', '15251104224');
+INSERT INTO `repair` VALUES (19, 2, '天花板漏水', '25栋705', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-09-26 15:12:54', '15251104224');
+INSERT INTO `repair` VALUES (20, 1, ' 天花板漏水', '25栋705室', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-09-26 15:14:36', '15251104224');
+INSERT INTO `repair` VALUES (21, 2, ' 天花板漏水', '25栋705', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-09-28 15:31:13', '15251104224');
+INSERT INTO `repair` VALUES (25, 1, ' 凳子坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-09-29 22:46:23', '15251104224');
+INSERT INTO `repair` VALUES (27, 0, ' 天花板漏水', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-03 17:25:42', '15251104218');
+INSERT INTO `repair` VALUES (30, 0, ' 电脑又坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:41:42', '15251104224');
+INSERT INTO `repair` VALUES (31, 0, ' 电脑坏坏的', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:43:58', '15251104224');
+INSERT INTO `repair` VALUES (32, 0, ' 电脑坏坏的', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:49:38', '15251104224');
+INSERT INTO `repair` VALUES (33, 0, ' 被子坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:51:03', '15251104224');
+INSERT INTO `repair` VALUES (34, 0, ' 被子又坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:55:32', '15251104224');
+INSERT INTO `repair` VALUES (35, 0, ' 管道漏水了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 20:56:49', '15251104224');
+INSERT INTO `repair` VALUES (36, 0, ' 地板爆裂', '25栋705', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-10 23:18:05', '15251104224');
+INSERT INTO `repair` VALUES (37, 0, ' 天花板爆炸', '25栋619', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-11 10:49:29', '15251104224');
+INSERT INTO `repair` VALUES (38, 0, ' 柜子坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-11 11:03:38', '15251104218');
+INSERT INTO `repair` VALUES (41, 0, ' 灯管坏了', '25栋', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-11 21:01:46', '15251104224');
+INSERT INTO `repair` VALUES (42, 0, '花洒漏水很严重，都裂开了，需要换一个花洒', '', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-11 21:03:50', '15251104224');
+INSERT INTO `repair` VALUES (43, 0, ' 天花板漏水，有很多灰尘掉下来', '25栋705', 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF', '2018-10-11 22:47:46', '15251104224');
+INSERT INTO `repair` VALUES (44, 1, ' 灯管不亮了', '2号楼A413宿舍', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/14/001605bcfe764ef9aaf34ba10436c6b2000.jpg', '2021-04-14 15:22:24', '15251104224');
+INSERT INTO `repair` VALUES (45, 0, ' 垃圾', '2号楼A413宿舍', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/14/424e347e36554a469282271a570c79d6src=http___gss0.baidu.com_94o3dSag_xI4khGko9WTAnF6hhy_zhidao_pic_item_bba1cd11728b471049731910c5cec3fdfd03238a.jpg&refer=http___gss0.baidu.jpg', '2021-04-14 15:29:50', '15251104224');
+INSERT INTO `repair` VALUES (46, 0, '天花板漏水', '', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/4d394f442a0c44e4b07b70ce3a2e57a3', '2021-04-20 10:28:58', '15251104224');
+INSERT INTO `repair` VALUES (47, 0, ' 凳子坏了', '25栋', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/b53780bd4a7c461ea8ce172d674fe36e', '2021-04-20 10:32:43', '15251104224');
+INSERT INTO `repair` VALUES (48, 0, ' 被子又坏了', '25栋', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/4fe699a370074c158a2c4626bcf90d10', '2021-04-20 10:36:26', '15251104224');
+INSERT INTO `repair` VALUES (50, 0, '', '', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/88035cce78a74926a6fa24ea12ae3eca', '2021-04-20 11:14:28', '15251104224');
+INSERT INTO `repair` VALUES (51, 0, '', '', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/d2ad6a9b60074309b6a82626db0cdbd1', '2021-04-20 11:19:41', '15251104224');
+INSERT INTO `repair` VALUES (52, 0, '', '', NULL, '2021-04-20 11:24:44', '15251104224');
+INSERT INTO `repair` VALUES (53, 0, '的', '的', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/20/2d464d11104d47309cb4a7b13e7a9665jio.jpg', '2021-04-20 15:13:07', '15251104224');
+INSERT INTO `repair` VALUES (54, 0, '空调坏了', '2#A413', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/05/11/c895fadab0354ce487e851d464eb25f9wx877cbc11239517e6.o6zAJsyNnP8-1iFAnONdqfzg1WZs.Mzcl5MTPuUHn80c56d6d5a740c37bd16ee3f3a626f27.png', '2021-05-11 15:21:51', '134566');
+INSERT INTO `repair` VALUES (55, 0, '空调坏了', '2#A413', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/05/11/c895fadab0354ce487e851d464eb25f9wx877cbc11239517e6.o6zAJsyNnP8-1iFAnONdqfzg1WZs.Mzcl5MTPuUHn80c56d6d5a740c37bd16ee3f3a626f27.png', '2021-05-11 15:21:57', '134566');
+
 
 -- ----------------------------
--- Table structure for `maintenance`
+-- Table structure for maintenance
 -- ----------------------------
 DROP TABLE IF EXISTS `maintenance`;
-CREATE TABLE `maintenance` (
+CREATE TABLE `maintenance`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
   `repair_id` int(11) NOT NULL COMMENT '该维修记录对应的报修单编号',
-  `technician_id` int(11) NOT NULL COMMENT '维修人员的编号',
-  `start_time` datetime NOT NULL COMMENT '维修开始的时间',
-  `end_time` datetime NOT NULL COMMENT '维修结束的时间',
-  `picture_url` varchar(256) DEFAULT NULL COMMENT '维修完成后现场照片',
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_REPAIRID` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`),
-  CONSTRAINT `FK_TECHNICIANID` FOREIGN KEY (`technician_id`) REFERENCES `technician` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='维修记录表';
+  `technician_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '维修人员的编号',
+  `start_time` datetime(0) NOT NULL COMMENT '维修开始的时间',
+  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '维修结束的时间',
+  `picture_url` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '维修完成后现场照片',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_REPAIRID`(`repair_id`) USING BTREE,
+  INDEX `FK_TECHNICIANID`(`technician_id`) USING BTREE,
+  CONSTRAINT `FK_REPAIRID` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_TECHNICIANID` FOREIGN KEY (`technician_id`) REFERENCES `technician` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '维修记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of maintenance
 -- ----------------------------
-INSERT INTO `maintenance` VALUES ('12', '19', '2', '2018-10-11 23:27:00','2018-10-11 23:27:00','84df5cf96a80016e074dda01e05bd2f5');
+INSERT INTO `maintenance` VALUES (12, 19, '2', '2018-10-11 23:27:00', '2018-10-11 23:27:00', '84df5cf96a80016e074dda01e05bd2f5');
+INSERT INTO `maintenance` VALUES (22, 20, '3', '2021-04-10 11:55:25', NULL, NULL);
+INSERT INTO `maintenance` VALUES (23, 21, '2', '2021-04-13 10:20:07', '2021-04-15 09:13:52', 'https://xpu-repair.oss-cn-beijing.aliyuncs.com/2021/04/15/802b3f51db0c42f4abf464121e0f1915ball.jpg');
+INSERT INTO `maintenance` VALUES (24, 25, '3', '2021-04-16 11:14:35', NULL, NULL);
 
 -- ----------------------------
--- Table structure for `urgentrepair`
+-- Table structure for urgentrepair
 -- ----------------------------
 DROP TABLE IF EXISTS `urgentrepair`;
-CREATE TABLE `urgentrepair` (
+CREATE TABLE `urgentrepair`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态：0为待查看，1为已查看，2为被用户取消，默认为待查看',
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '状态：0为待查看，1为已查看，2为被用户取消，默认为待查看',
   `repair_id` int(11) NOT NULL COMMENT '该催单对应的报修单编号',
-  `user_id` char(11) NOT NULL COMMENT '发起该催单的用户的编号',
-  `create_time` datetime NOT NULL COMMENT '催单的创建时间',
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_REPAIRID1` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`),
-  CONSTRAINT `FK_USERID1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='催单表';
+  `user_id` char(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发起该催单的用户的编号',
+  `create_time` datetime(0) NOT NULL COMMENT '催单的创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_REPAIRID1`(`repair_id`) USING BTREE,
+  INDEX `FK_USERID1`(`user_id`) USING BTREE,
+  CONSTRAINT `FK_REPAIRID1` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_USERID1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '催单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of urgentrepair
 -- ----------------------------
-INSERT INTO `urgentrepair` VALUES ('7', '0', '7', '15251104224', '2018-09-26 14:19:08');
-INSERT INTO `urgentrepair` VALUES ('8', '0', '8', '15251104224', '2018-09-26 14:16:20');
-INSERT INTO `urgentrepair` VALUES ('9', '0', '13', '15251104224', '2018-09-26 14:19:23');
-INSERT INTO `urgentrepair` VALUES ('10', '0', '19', '15251104224', '2018-09-28 15:30:41');
-INSERT INTO `urgentrepair` VALUES ('13', '0', '38', '15251104218', '2018-10-11 11:06:25');
-INSERT INTO `urgentrepair` VALUES ('16', '0', '40', '15251104224', '2018-10-11 16:43:55');
-INSERT INTO `urgentrepair` VALUES ('19', '0', '42', '15251104224', '2018-10-11 21:34:08');
-INSERT INTO `urgentrepair` VALUES ('20', '0', '36', '15251104224', '2018-10-11 22:46:56');
-INSERT INTO `urgentrepair` VALUES ('21', '0', '27', '15251104218', '2018-10-11 23:41:06');
+INSERT INTO `urgentrepair` VALUES (7, 0, 7, '15251104224', '2018-09-26 14:19:08');
+INSERT INTO `urgentrepair` VALUES (8, 0, 8, '15251104224', '2018-09-26 14:16:20');
+INSERT INTO `urgentrepair` VALUES (9, 0, 13, '15251104224', '2018-09-26 14:19:23');
+INSERT INTO `urgentrepair` VALUES (10, 0, 19, '15251104224', '2018-09-28 15:30:41');
+INSERT INTO `urgentrepair` VALUES (13, 0, 38, '15251104218', '2018-10-11 11:06:25');
+INSERT INTO `urgentrepair` VALUES (16, 0, 40, '15251104224', '2018-10-11 16:43:55');
+INSERT INTO `urgentrepair` VALUES (19, 0, 42, '15251104224', '2018-10-11 21:34:08');
+INSERT INTO `urgentrepair` VALUES (20, 0, 36, '15251104224', '2018-10-11 22:46:56');
+INSERT INTO `urgentrepair` VALUES (21, 0, 27, '15251104218', '2018-10-11 23:41:06');
+INSERT INTO `urgentrepair` VALUES (22, 1, 20, '15251104224', '2021-04-13 14:26:46');
+INSERT INTO `urgentrepair` VALUES (23, 1, 20, '15251104224', '2021-04-13 14:27:17');
+INSERT INTO `urgentrepair` VALUES (24, 1, 20, '15251104224', '2021-04-13 14:27:21');
+INSERT INTO `urgentrepair` VALUES (25, 1, 20, '15251104224', '2021-04-13 14:33:39');
+INSERT INTO `urgentrepair` VALUES (26, 1, 20, '15251104224', '2021-04-13 14:34:19');
+INSERT INTO `urgentrepair` VALUES (27, 1, 20, '15251104224', '2021-04-13 14:36:51');
+INSERT INTO `urgentrepair` VALUES (28, 1, 20, '15251104224', '2021-04-13 14:47:42');
+INSERT INTO `urgentrepair` VALUES (29, 1, 21, '15251104224', '2021-04-13 14:50:20');
+INSERT INTO `urgentrepair` VALUES (30, 1, 20, '15251104224', '2021-04-14 15:43:48');
+INSERT INTO `urgentrepair` VALUES (31, 1, 20, '15251104224', '2021-04-14 15:50:23');
+INSERT INTO `urgentrepair` VALUES (32, 1, 20, '15251104224', '2021-05-12 11:57:48');
+
+
+
+
