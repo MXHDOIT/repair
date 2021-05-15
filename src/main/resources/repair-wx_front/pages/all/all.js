@@ -1,7 +1,9 @@
+const app = getApp()
 Page({
   /**
    * 页面的初始数据
    */
+  
   data: {
     array:[],
     nickName:''
@@ -34,7 +36,7 @@ Page({
     })
    // 将微信信息提交给服务器，并获取服务器传回的数据
     wx.request({
-      url: 'http://localhost:8888/wx/repair/all',
+      url: app.data.url+'/wx/repair/all',
       method: 'post',
       data: {
       },

@@ -1,3 +1,4 @@
+const app = getApp()
 Page({
 
   /**
@@ -37,7 +38,7 @@ Page({
     })
     // 将微信信息提交给服务器，并获取服务器传回的数据
     wx.request({
-      url: 'http://localhost:8888/wx/maintenance/ing',
+      url: app.data.url +'/wx/maintenance/ing',
       method: 'post',
       data: {
       },

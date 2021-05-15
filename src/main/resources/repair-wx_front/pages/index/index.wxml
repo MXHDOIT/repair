@@ -5,7 +5,7 @@
     </swiper-item>
   </block>
 </swiper>
-<view class="explain">小程序仅实现部分功能，全部功能请前往浏览:http://localhost:8888/</view>
+<view class="explain">小程序仅实现部分功能，全部功能请前往浏览:http://47.93.90.134:9999/</view>
 <view class='header'>请填写报修内容</view>
 <form bindsubmit="formSubmit">
 

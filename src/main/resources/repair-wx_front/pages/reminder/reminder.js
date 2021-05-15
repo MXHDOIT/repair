@@ -1,4 +1,5 @@
 // pages/reminder/reminder.js
+const app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -13,7 +14,7 @@ Page({
     //将值发送到服务器
     var that = this //创建一个名为that的变量来保存this当前的值  
     wx.request({
-      url: 'http://localhost:8888/user/reminders',
+      url: app.data.url +'/user/reminders',
       method: 'post',
       data: {
         repairId: e.currentTarget.dataset.text
@@ -61,7 +62,7 @@ Page({
     })
     // 将微信信息提交给服务器，并获取服务器传回的数据
     wx.request({
-      url: 'http://localhost:8888/wx/repair/reminder',
+      url: app.data.url +'/wx/repair/reminder',
       method: 'post',
       data: {
       },

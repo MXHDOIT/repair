@@ -1,4 +1,4 @@
-var app = getApp()
+const app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -69,7 +69,7 @@ Page({
       })
     }else{
       wx.request({
-        url: 'http://localhost:8888/wx/login',
+        url: app.data.url +'/wx/login',
         method:'post',
         data:{
           account:that.data.account,

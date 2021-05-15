@@ -59,7 +59,7 @@ Page({
         var tempFilePaths = res.tempFilePaths
         wx.uploadFile({
          
-          url: 'http://localhost:8888/wx/picture/upload',
+          url: app.data.url +'/wx/picture/upload',
           filePath: tempFilePaths[0],
           name: 'file',
           success: function (res) {
@@ -91,7 +91,7 @@ Page({
     //将值发送到服务器
     var that = this //创建一个名为that的变量来保存this当前的值  
     wx.request({
-      url: 'http://localhost:8888/wx/repair/add',
+      url: app.data.url +'/wx/repair/add',
       method: 'post',
       data: arr,
       header: {
