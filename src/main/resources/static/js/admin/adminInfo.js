@@ -24,7 +24,6 @@ $('#modify-admin').on('click', function () {
 
 function updateAdmin() {
     $.ajax({
-
         async: false,
         type: 'post',
         url: '/admin/update',

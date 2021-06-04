@@ -2,14 +2,14 @@ layui.use(['form','element','layer'], function () {
     let form = layui.form;
     let element = layui.element;
     let layer = layui.layer;
-
-    form.on('submit(btn_addProfession)', function (data) {
-        addProfession();
-        return false;
-    });
 });
 
 $(document).ready(function () {
+
+    //添加
+    $("#btn_addProfession").click(function () {
+        addProfession();
+    });
 
     //点击删除按钮后删除一行
     $(".btn_deleteProfession").click(function () {
@@ -27,6 +27,7 @@ $(document).ready(function () {
         });
 
     });
+
 });
 
 
@@ -81,5 +82,5 @@ function deleteProfessionById(professionId) {
             alert(data.result);
         }
     });
-}
+};
 

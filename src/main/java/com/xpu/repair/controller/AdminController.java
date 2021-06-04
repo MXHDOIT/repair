@@ -115,6 +115,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ResponseBody
     public ResultDTO updateAdmin(Admin admin,HttpServletRequest request) {
         Admin adminSession = (Admin) request.getSession().getAttribute("admin");
         admin.setId(adminSession.getId());

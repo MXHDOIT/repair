@@ -24,12 +24,16 @@ function hideErrorMsg() {
 function login() {
     var id = $("#form-id").val()
     var password = $("#form-password").val()
-    if (!check(id)  || !check(password)){
-        $("#errorMsg").text("账号和密码不能为空");
+    if (!check(id)){
+        $("#errorMsg").text("账号不能为空");
         $("#errorMsg").css("display","block");
         return false;
     }
-
+    if (!check(password)){
+        $("#errorMsg").text("密码不能为空");
+        $("#errorMsg").css("display","block");
+        return false;
+    }
     $.ajax({
         type: "POST",
         url: $("#myForm").attr("action"),
