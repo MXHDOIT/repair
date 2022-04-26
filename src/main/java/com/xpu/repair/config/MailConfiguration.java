@@ -11,8 +11,8 @@ public class MailConfiguration {
     public JavaMailSenderImpl JavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.163.com");
-        mailSender.setUsername("maxinhangdoit@163.com");
-        mailSender.setPassword("PLLIICTXALTYPEKI");
+        mailSender.setUsername("");
+        mailSender.setPassword("");
         mailSender.setDefaultEncoding("UTF-8");
         return mailSender;
     }
