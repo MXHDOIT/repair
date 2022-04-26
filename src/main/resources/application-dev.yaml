@@ -17,8 +17,8 @@ spring:
     time-zone: GMT+8
 #  mail:
 #    host: smtp.163.com
-#    username: maxinhangdoit@163.com
-#    password: PLLIICTXALTYPEKI
+#    username: 
+#    password: 
 #    port: 25
 #    default-encoding: UTF-8
 #    test-connection: true
@@ -45,7 +45,7 @@ aliyun:
   oss:
     file:
       endpoint: oss-cn-beijing.aliyuncs.com
-      keyid: LTAI4GByPoVay66dUmNTFxXU
-      keysecret: 9EIPaRGRjQXxzsjzG9xwmWRM2omp6t
-      bucketname: xpu-repair
+      keyid: 
+      keysecret:
+      bucketname: 
 
